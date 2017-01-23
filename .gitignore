@@ -1,0 +1,9 @@
+
+# all files under .idea directory in the project root except workspace.xml and tasks.xml files
+.idea/
+!workspace.xml
+!tasks.xml
+# all the .iml module files throughout the module directories
+*.iml
+# generated files and build files related to compilation
+target/
