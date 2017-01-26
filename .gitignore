@@ -1,4 +1,3 @@
-
 # all files under .idea directory in the project root except workspace.xml and tasks.xml files
 .idea/
 !workspace.xml
