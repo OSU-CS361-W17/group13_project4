@@ -20,7 +20,7 @@ public class Main {
     }
 
     //This function should return a new model
-    static String newModel() {
+    private static String newModel() {
         return "MODEL";
     }
 
