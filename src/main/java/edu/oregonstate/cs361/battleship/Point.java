@@ -11,6 +11,13 @@ public class Point {
         this.down = down;
         validate();
     }
+	
+	// Default constructor for JSON/GSON testing...
+    public Point () {
+        this.across = 0;
+        this.down = 0;
+        validate();
+    }
 
     private void validate() {
         if(across < 0 || across > 9 || down < 0 || down > 9) {

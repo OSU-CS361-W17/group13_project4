@@ -1,6 +1,9 @@
 package edu.oregonstate.cs361.battleship;
 
 import spark.Request;
+import com.google.gson.Gson;
+import javax.print.event.PrintJobAttributeListener;	// For JSON output testing
+
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
@@ -21,12 +24,19 @@ public class Main {
 
     //This function should return a new model
     private static String newModel() {
-        return "MODEL";
+		// Create blank BattleshipModel object - Note that this is where the majority of mess regarding new JSON/Object Conversion will be
+        BattleshipModel game_state = new BattleshipModel(new Ship[5], new Ship[5], new Shot[0], new Shot[0], new Shot[0], new Shot[0]);
+        Gson gson = new Gson();
+        String json = gson.toJson(game_state);	// Convert object to JSON
+        System.out.println("test" + json);		// Output test
+        return json;
     }
 
     //This function should accept an HTTP request and deseralize it into an actual Java object.
     private static BattleshipModel getModelFromReq(Request req){
-        return null;
+        Gson gson = new Gson();
+        BattleshipModel game_model = gson.fromJson(req.body(), BattleshipModel.class);
+        return game_model;
     }
 
     //This controller should take a json object from the front end, and place the ship as requested, and then return the object.
