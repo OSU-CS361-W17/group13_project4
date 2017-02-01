@@ -1,6 +1,9 @@
 package edu.oregonstate.cs361.battleship;
 
 import spark.Request;
+
+import com.google.gson.Gson;
+
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
@@ -21,22 +24,46 @@ public class Main {
 
     //This function should return a new model
     private static String newModel() {
-        return "MODEL";
+        BattleshipModel game_state = new BattleshipModel();
+        Gson gson = new Gson();
+        String json = gson.toJson(game_state);
+		
+        System.out.println(json);	// Allows viewing of JSON in IDE (test)
+        return json;
     }
 
-    //This function should accept an HTTP request and deseralize it into an actual Java object.
+    //This function should accept an HTTP request and deserialize it into an actual Java object.
     private static BattleshipModel getModelFromReq(Request req){
-        return null;
+        Gson gson = new Gson();
+        return gson.fromJson(req.body(), BattleshipModel.class);
+    }
+	
+    // This function will convert the game object from a BattleShip model to a JSON
+    private static String sendModel(BattleshipModel model) {
+        Gson gson = new Gson();
+        return gson.toJson(model);
     }
 
-    //This controller should take a json object from the front end, and place the ship as requested, and then return the object.
+	//This controller should take a json object from the front end, and place the ship as requested, and then return the object.
     private static String placeShip(Request req) {
-        return "SHIP";
+        BattleshipModel model = getModelFromReq(req);
+
+        /*
+            Ship placement logic goes here
+        */
+
+        return sendModel(model); // Previous code: return "SHIP";
     }
 
     //Similar to placeShip, but with firing.
     private static String fireAt(Request req) {
-        return null;
+        BattleshipModel model = getModelFromReq(req);
+
+        /*
+            Ship placement logic goes here
+        */
+
+        return sendModel(model);
     }
 
 }
