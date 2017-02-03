@@ -130,7 +130,7 @@ public class BattleshipModel {
         }
         Ship temp = new Ship(shipName, length, start, end);
 
-        if (shipName.substring(0, 9).equals("computer_")) {
+        if (shipName.startsWith("computer_")) {
             if (end.getAcross() > 10 || end.getDown() > 10)
                 return 1;
 
@@ -223,8 +223,40 @@ public class BattleshipModel {
     public boolean fireAt(int x, int y) {
         Shot checkShot = new Shot(x, y);
 
-        if ((playerHits.contains(checkShot)) || playerMisses.contains(checkShot)) {
+        if ((computerHits.contains(checkShot)) || computerMisses.contains(checkShot)) {
             throw new RuntimeException("You have already shot here.");
+        }
+
+        boolean hitAShip = false;
+        for (Ship s : getPlayerShips()) {
+            hitAShip |= s.overLapsWith(checkShot.getLoc());
+        }
+        if (hitAShip) {
+            computerHits.add(checkShot);
+        } else {
+            computerMisses.add(checkShot);
+        }
+
+        if (checkEndGame()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean cpuFireAt() {
+        int x = 1;
+        Shot checkShot = new Shot(0,0);
+
+        while (x == 1) {
+             checkShot = new Shot((int) (Math.random() * 10) + 1, (int) (Math.random() * 10) + 1);
+
+            if ((playerHits.contains(checkShot)) || playerMisses.contains(checkShot)) {
+                x = 1;
+            } else {
+                x = 0;
+                System.out.println("CPU Shot Fired");
+            }
         }
 
         boolean hitAShip = false;
