@@ -1,5 +1,8 @@
 package edu.oregonstate.cs361.battleship;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BattleshipModel {
 
     private static final String AIRCRAFT_CARRIER = "aircraftCarrier";
@@ -14,17 +17,17 @@ public class BattleshipModel {
     private static final String CPU_SUBMARINE = "computer_" + SUBMARINE;
 
     // Opted for individual objects instead of arrays in the interest of JSON compatibility...
-	// If anyone else wants to figure out how to make Ship arrays without compromising JSON structure,
-	// then go for it. - Trey, 2/1
+    // If anyone else wants to figure out how to make Ship arrays without compromising JSON structure,
+    // then go for it. - Trey, 2/1
     private Ship aircraftCarrier, battleship, cruiser, destroyer, submarine;
     private Ship computer_aircraftCarrier, computer_battleship, computer_cruiser, computer_destroyer, computer_submarine;
     private List<Shot> playerHits, playerMisses, computerHits, computerMisses;
 
     public BattleshipModel() {
-        this.playerHits = new LinkedList;
-        this.playerMisses = new LinkedList;
-        this.computerHits = new LinkedList;
-        this.computerMisses = new LinkedList;
+        this.playerHits = new LinkedList<>();
+        this.playerMisses = new LinkedList<>();
+        this.computerHits = new LinkedList<>();
+        this.computerMisses = new LinkedList<>();
 
         this.aircraftCarrier = new Ship(AIRCRAFT_CARRIER, 5, new Point(0, 0), new Point(0, 0));
         this.battleship = new Ship(BATTLESHIP, 4, new Point(0, 0), new Point(0, 0));
@@ -38,37 +41,65 @@ public class BattleshipModel {
         this.computer_submarine = new Ship(CPU_SUBMARINE, 0, new Point(0, 0), new Point(0, 0));
     }
 
-    public Ship getAircraftCarrier() { return aircraftCarrier; }
+    public Ship getAircraftCarrier() {
+        return aircraftCarrier;
+    }
 
-    public Ship getBattleship() { return battleship; }
+    public Ship getBattleship() {
+        return battleship;
+    }
 
-    public Ship getDestroyer() { return destroyer; }
+    public Ship getDestroyer() {
+        return destroyer;
+    }
 
-    public Ship getCruiser() { return cruiser; }
+    public Ship getCruiser() {
+        return cruiser;
+    }
 
-    public Ship getSubmarine() { return submarine; }
+    public Ship getSubmarine() {
+        return submarine;
+    }
 
-    public Ship getComputer_aircraftCarrier() { return computer_aircraftCarrier; }
+    public Ship getComputer_aircraftCarrier() {
+        return computer_aircraftCarrier;
+    }
 
-    public Ship getComputer_battleship() { return computer_battleship; }
+    public Ship getComputer_battleship() {
+        return computer_battleship;
+    }
 
-    public Ship getComputer_cruiser() { return computer_cruiser; }
+    public Ship getComputer_cruiser() {
+        return computer_cruiser;
+    }
 
-    public Ship getComputer_destroyer() { return computer_destroyer; }
+    public Ship getComputer_destroyer() {
+        return computer_destroyer;
+    }
 
-    public Ship getComputer_submarine() { return computer_submarine; }
+    public Ship getComputer_submarine() {
+        return computer_submarine;
+    }
 
-    public Shot[] getPlayerHits() { return playerHits; }
+    public List<Shot> getPlayerHits() {
+        return playerHits;
+    }
 
-    public Shot[] getPlayerMisses() { return playerMisses; }
+    public List<Shot> getPlayerMisses() {
+        return playerMisses;
+    }
 
-    public Shot[] getCpuHits() { return computerHits; }
+    public List<Shot> getCpuHits() {
+        return computerHits;
+    }
 
-    public Shot[] getCpuMisses() { return computerMisses; }
+    public List<Shot> getCpuMisses() {
+        return computerMisses;
+    }
 
     public int placeShip(String shipName, int across, int down, String orientation) {
         int length = 0;
-        switch(shipName) {
+        switch (shipName) {
             case AIRCRAFT_CARRIER:
             case CPU_AIRCRAFT_CARRIER:
                 length = 5;
@@ -90,10 +121,9 @@ public class BattleshipModel {
         }
         Point start = new Point(across, down);
         Point end;
-        if(orientation.equals("horizontal")) {
+        if (orientation.equals("horizontal")) {
             end = start.traverse(0, length - 1);
-        }
-        else if (orientation.equals("vertical")) {
+        } else if (orientation.equals("vertical")) {
             end = start.traverse(length - 1, 0);
         } else {
             throw new RuntimeException("orientation must be horizontal or vertical!");
@@ -104,20 +134,20 @@ public class BattleshipModel {
             if (end.getAcross() > 10 || end.getDown() > 10)
                 return 1;
 
-            for(Ship ship : getCpuShips()) {
+            for (Ship ship : getCpuShips()) {
                 if (ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
                     return 1;
                 }
             }
         } else {
-            for(Ship ship : getPlayerShips()) {
+            for (Ship ship : getPlayerShips()) {
                 if (ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
                     throw new RuntimeException("Illegal ship placement: Overlapping ships!");
                 }
             }
         }
 
-        switch(shipName) {
+        switch (shipName) {
             case AIRCRAFT_CARRIER:
                 aircraftCarrier = temp;
                 break;
@@ -151,7 +181,8 @@ public class BattleshipModel {
         }
         return 0;
     }
-    public Ship[] getAllShips()  {
+
+    public Ship[] getAllShips() {
         Ship[] ships = {
                 aircraftCarrier,
                 battleship,
@@ -166,7 +197,8 @@ public class BattleshipModel {
         };
         return ships;
     }
-    public Ship[] getCpuShips()  {
+
+    public Ship[] getCpuShips() {
         Ship[] ships = {
                 computer_aircraftCarrier,
                 computer_battleship,
@@ -176,7 +208,8 @@ public class BattleshipModel {
         };
         return ships;
     }
-    public Ship[] getPlayerShips()  {
+
+    public Ship[] getPlayerShips() {
         Ship[] ships = {
                 aircraftCarrier,
                 battleship,
@@ -187,29 +220,32 @@ public class BattleshipModel {
         return ships;
     }
 
-    public boolean fireAt(int x, int y){
-        Shot checkShot = new Shot(x,y);
+    public boolean fireAt(int x, int y) {
+        Shot checkShot = new Shot(x, y);
 
-        if((playerHits.contains(checkShot)) || playerMisses.contains(checkShot)){
-            throw new RunTimeException("You have already shot here.");
+        if ((playerHits.contains(checkShot)) || playerMisses.contains(checkShot)) {
+            throw new RuntimeException("You have already shot here.");
         }
 
-        if(checkShot.overLapsWith(checkShot.getLoc())){
+        boolean hitAShip = false;
+        for (Ship s : getCpuShips()) {
+            hitAShip |= s.overLapsWith(checkShot.getLoc());
+        }
+        if (hitAShip) {
             playerHits.add(checkShot);
-        }
-        else{
+        } else {
             playerMisses.add(checkShot);
         }
 
-        if(checkEndGame()){
+        if (checkEndGame()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
+
+    public boolean checkEndGame() {
+        return ((playerMisses.size() == 16) || playerHits.size() == 16);
+    }
 }
 
-public boolean checkEndGame(){
-    return((playerMisses.size() == 16) || playerHits.size() == 16)
-}

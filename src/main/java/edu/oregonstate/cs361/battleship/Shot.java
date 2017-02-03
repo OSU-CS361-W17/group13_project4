@@ -33,4 +33,8 @@ public class Shot {
         return loc.getDown();
     }
 
+    public boolean equals(Shot other) {
+        return other.loc.equals(this.loc);
+    }
+
 }
