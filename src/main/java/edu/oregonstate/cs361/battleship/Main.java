@@ -33,35 +33,42 @@ public class Main {
     }
 
     //This function should accept an HTTP request and deserialize it into an actual Java object.
-    private static BattleshipModel getModelFromReq(Request req){
+    public static BattleshipModel getModelFromReq(Request req){
         Gson gson = new Gson();
         return gson.fromJson(req.body(), BattleshipModel.class);
     }
 	
     // This function will convert the game object from a BattleShip model to a JSON
-    private static String sendModel(BattleshipModel model) {
+    public static String sendModel(BattleshipModel model) {
         Gson gson = new Gson();
         return gson.toJson(model);
     }
 
 	//This controller should take a json object from the front end, and place the ship as requested, and then return the object.
     private static String placeShip(Request req) {
+//        return "SHIP";
+        String body = req.body();
+        System.out.println(body);
         BattleshipModel model = getModelFromReq(req);
 
-        /*
-            Ship placement logic goes here
-        */
+        String url = req.url();
+        System.out.println(url);
+        int index = url.indexOf("placeShip/") + 10;
+        url = url.substring(index);
+        String[] parts = url.split("/");
+        String arg1 = parts[0];
+        int arg2 = Integer.parseInt(parts[1]);
+        int arg3 = Integer.parseInt(parts[2]);
+        String arg4 = parts[3];
+        System.out.println("About to call model method!");
+        model.placeShip(arg1, arg2, arg3, arg4);
 
-        return sendModel(model); // Previous code: return "SHIP";
+        return sendModel(model);
     }
 
     //Similar to placeShip, but with firing.
     private static String fireAt(Request req) {
         BattleshipModel model = getModelFromReq(req);
-
-        /*
-            Ship placement logic goes here
-        */
 
         return sendModel(model);
     }
