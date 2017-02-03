@@ -33,4 +33,8 @@ public class Point {
     public Point traverse(int across, int down) {
         return new Point(getAcross() + across, getDown() + down);
     }
+
+    public boolean equals(Point other) {
+        return this.Down == other.Down && this.Across == other.Across;
+    }
 }

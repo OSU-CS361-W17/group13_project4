@@ -88,6 +88,18 @@ public class Main {
     private static String fireAt(Request req) {
         BattleshipModel model = getModelFromReq(req);
 
+        String url = req.url();
+        System.out.println(url);
+        int index = url.indexOf("fire/") + 5;
+        url = url.substring(index);
+        String[] parts = url.split("/");
+        int across = Integer.parseInt(parts[0]);
+        int down = Integer.parseInt(parts[1]);
+
+        model.fireAt(across, down);
+
+        // INSERT CPU FIRE CODE HERE:
+
         return sendModel(model);
     }
 
