@@ -1,5 +1,7 @@
 package edu.oregonstate.cs361.battleship;
 
+import java.util.List;
+
 public class BattleshipModel {
 
     private static final String AIRCRAFT_CARRIER = "aircraftCarrier";
