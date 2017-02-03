@@ -97,8 +97,9 @@ public class Main {
         int down = Integer.parseInt(parts[1]);
 
         model.fireAt(across, down);
+        model.cpuFireAt();
 
-        // INSERT CPU FIRE CODE HERE:
+        System.out.println(sendModel(model));
 
         return sendModel(model);
     }
