@@ -66,7 +66,7 @@ public class BattleshipModel {
 
     public Shot[] getCpuMisses() { return computerMisses; }
 
-    public void placeShip(String shipName, int across, int down, String orientation) {
+    public int placeShip(String shipName, int across, int down, String orientation) {
         int length = 0;
         switch(shipName) {
             case AIRCRAFT_CARRIER:
@@ -99,11 +99,24 @@ public class BattleshipModel {
             throw new RuntimeException("orientation must be horizontal or vertical!");
         }
         Ship temp = new Ship(shipName, length, start, end);
-        for(Ship ship : getPlayerShips()) {
-            if(ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
-                throw new RuntimeException("Illegal ship placement: Overlapping ships!");
+
+        if (shipName.substring(0, 9).equals("computer_")) {
+            if (end.getAcross() > 10 || end.getDown() > 10)
+                return 1;
+
+            for(Ship ship : getCpuShips()) {
+                if (ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
+                    return 1;
+                }
+            }
+        } else {
+            for(Ship ship : getPlayerShips()) {
+                if (ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
+                    throw new RuntimeException("Illegal ship placement: Overlapping ships!");
+                }
             }
         }
+
         switch(shipName) {
             case AIRCRAFT_CARRIER:
                 aircraftCarrier = temp;
@@ -136,6 +149,7 @@ public class BattleshipModel {
                 computer_destroyer = temp;
                 break;
         }
+        return 0;
     }
     public Ship[] getAllShips()  {
         Ship[] ships = {
