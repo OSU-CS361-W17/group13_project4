@@ -1,7 +1,19 @@
 package edu.oregonstate.cs361.battleship;
 
 public class BattleshipModel {
-	// Opted for individual objects instead of arrays in the interest of JSON compatibility...
+
+    private static final String AIRCRAFT_CARRIER = "aircraftCarrier";
+    private static final String BATTLESHIP = "battleship";
+    private static final String CRUISER = "cruiser";
+    private static final String DESTROYER = "destroyer";
+    private static final String SUBMARINE = "submarine";
+    private static final String CPU_AIRCRAFT_CARRIER = "computer_" + AIRCRAFT_CARRIER;
+    private static final String CPU_BATTLESHIP = "computer_" + BATTLESHIP;
+    private static final String CPU_CRUISER = "computer_" + CRUISER;
+    private static final String CPU_DESTROYER = "computer_" + DESTROYER;
+    private static final String CPU_SUBMARINE = "computer_" + SUBMARINE;
+
+    // Opted for individual objects instead of arrays in the interest of JSON compatibility...
 	// If anyone else wants to figure out how to make Ship arrays without compromising JSON structure,
 	// then go for it. - Trey, 2/1
     private Ship aircraftCarrier, battleship, cruiser, destroyer, submarine;
@@ -14,16 +26,16 @@ public class BattleshipModel {
         this.computerHits = new Shot[0];
         this.computerMisses = new Shot[0];
 
-        this.aircraftCarrier = new Ship("AircraftCarrier", 5, new Point(0, 0), new Point(0, 0));
-        this.battleship = new Ship("Battleship", 4, new Point(0, 0), new Point(0, 0));
-        this.cruiser = new Ship("Cruiser", 3, new Point(0, 0), new Point(0, 0));
-        this.destroyer = new Ship("Destroyer", 2, new Point(0, 0), new Point(0, 0));
-        this.submarine = new Ship("Submarine", 2, new Point(0, 0), new Point(0, 0));
-        this.computer_aircraftCarrier = new Ship("Computer_AircraftCarrier", 5, new Point(2, 2), new Point(2, 7));
-        this.computer_battleship = new Ship("Computer_Battleship", 4, new Point(2, 8), new Point(6, 8));
-        this.computer_cruiser = new Ship("Computer_Cruiser", 3, new Point(4, 1), new Point(4, 4));
-        this.computer_destroyer = new Ship("Computer_Destroyer", 2, new Point(7, 3), new Point(7, 5));
-        this.computer_submarine = new Ship("Computer_Submarine", 2, new Point(9, 6), new Point(9, 8));
+        this.aircraftCarrier = new Ship(AIRCRAFT_CARRIER, 5, new Point(0, 0), new Point(0, 0));
+        this.battleship = new Ship(BATTLESHIP, 4, new Point(0, 0), new Point(0, 0));
+        this.cruiser = new Ship(CRUISER, 3, new Point(0, 0), new Point(0, 0));
+        this.destroyer = new Ship(DESTROYER, 2, new Point(0, 0), new Point(0, 0));
+        this.submarine = new Ship(SUBMARINE, 2, new Point(0, 0), new Point(0, 0));
+        this.computer_aircraftCarrier = new Ship(CPU_AIRCRAFT_CARRIER, 0, new Point(0, 0), new Point(0, 0));
+        this.computer_battleship = new Ship(CPU_BATTLESHIP, 0, new Point(0, 0), new Point(0, 0));
+        this.computer_cruiser = new Ship(CPU_CRUISER, 0, new Point(0, 0), new Point(0, 0));
+        this.computer_destroyer = new Ship(CPU_DESTROYER, 0, new Point(0, 0), new Point(0, 0));
+        this.computer_submarine = new Ship(CPU_SUBMARINE, 0, new Point(0, 0), new Point(0, 0));
     }
 
     public Ship getAircraftCarrier() { return aircraftCarrier; }
@@ -54,4 +66,110 @@ public class BattleshipModel {
 
     public Shot[] getCpuMisses() { return computerMisses; }
 
+    public void placeShip(String shipName, int across, int down, String orientation) {
+        int length = 0;
+        switch(shipName) {
+            case AIRCRAFT_CARRIER:
+            case CPU_AIRCRAFT_CARRIER:
+                length = 5;
+                break;
+            case BATTLESHIP:
+            case CPU_BATTLESHIP:
+                length = 4;
+                break;
+            case CRUISER:
+            case CPU_CRUISER:
+                length = 3;
+                break;
+            case DESTROYER:
+            case SUBMARINE:
+            case CPU_SUBMARINE:
+            case CPU_DESTROYER:
+                length = 2;
+                break;
+        }
+        Point start = new Point(across, down);
+        Point end;
+        if(orientation.equals("horizontal")) {
+            end = start.traverse(0, length - 1);
+        }
+        else if (orientation.equals("vertical")) {
+            end = start.traverse(length - 1, 0);
+        } else {
+            throw new RuntimeException("orientation must be horizontal or vertical!");
+        }
+        Ship temp = new Ship(shipName, length, start, end);
+        for(Ship ship : getPlayerShips()) {
+            if(ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
+                throw new RuntimeException("Illegal ship placement: Overlapping ships!");
+            }
+        }
+        switch(shipName) {
+            case AIRCRAFT_CARRIER:
+                aircraftCarrier = temp;
+                break;
+            case CPU_AIRCRAFT_CARRIER:
+                computer_aircraftCarrier = temp;
+                break;
+            case BATTLESHIP:
+                battleship = temp;
+                break;
+            case CPU_BATTLESHIP:
+                computer_battleship = temp;
+                break;
+            case CRUISER:
+                cruiser = temp;
+                break;
+            case CPU_CRUISER:
+                computer_cruiser = temp;
+                break;
+            case DESTROYER:
+                destroyer = temp;
+                break;
+            case SUBMARINE:
+                submarine = temp;
+                break;
+            case CPU_SUBMARINE:
+                computer_submarine = temp;
+                break;
+            case CPU_DESTROYER:
+                computer_destroyer = temp;
+                break;
+        }
+    }
+    public Ship[] getAllShips()  {
+        Ship[] ships = {
+                aircraftCarrier,
+                battleship,
+                cruiser,
+                destroyer,
+                submarine,
+                computer_aircraftCarrier,
+                computer_battleship,
+                computer_cruiser,
+                computer_destroyer,
+                computer_submarine
+        };
+        return ships;
+    }
+    public Ship[] getCpuShips()  {
+        Ship[] ships = {
+                computer_aircraftCarrier,
+                computer_battleship,
+                computer_cruiser,
+                computer_destroyer,
+                computer_submarine
+        };
+        return ships;
+    }
+    public Ship[] getPlayerShips()  {
+        Ship[] ships = {
+                aircraftCarrier,
+                battleship,
+                cruiser,
+                destroyer,
+                submarine
+        };
+        return ships;
+    }
 }

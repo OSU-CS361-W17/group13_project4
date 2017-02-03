@@ -29,4 +29,8 @@ public class Point {
     public int getDown() {
         return Down;
     }
+
+    public Point traverse(int across, int down) {
+        return new Point(getAcross() + across, getDown() + down);
+    }
 }
