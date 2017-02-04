@@ -11,15 +11,6 @@ public class Point {
     public Point(int across, int down) {
         this.Across = across;
         this.Down = down;
-        //validate();	
-    }
-
-	// Validation has been disabled for dev purposes - this needs to be fixed, currently it prevents
-	// the program from converting between Java and JSON.
-    private void validate() {
-        if(Across < 0 || Across > 9 || Down < 0 || Down > 9) {
-            throw new RuntimeException("Points must have both coordinates exist between 0 and 9, inclusive");
-        }
     }
 
     public int getAcross() {
@@ -34,7 +25,4 @@ public class Point {
         return new Point(getAcross() + across, getDown() + down);
     }
 
-    public boolean equals(Point other) {
-        return this.Down == other.Down && this.Across == other.Across;
-    }
 }
