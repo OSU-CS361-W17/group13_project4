@@ -20,16 +20,13 @@ public class Shot {
         return new Point(Across, Down);
     }
 
-    public int getAcross() {
-        return Across;
-    }
-
-    public int getDown() {
-        return Down;
-    }
-
-    public boolean equals(Shot other) {
-        return Across == other.Across && Down == other.Down;
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Shot)) {
+            return false;
+        }
+       Shot cast = (Shot) other;
+        return Across == cast.Across && Down == cast.Down;
     }
 
 }

@@ -41,62 +41,6 @@ public class BattleshipModel {
         this.computer_submarine = new Ship(CPU_SUBMARINE, 0, new Point(0, 0), new Point(0, 0));
     }
 
-    public Ship getAircraftCarrier() {
-        return aircraftCarrier;
-    }
-
-    public Ship getBattleship() {
-        return battleship;
-    }
-
-    public Ship getDestroyer() {
-        return destroyer;
-    }
-
-    public Ship getCruiser() {
-        return cruiser;
-    }
-
-    public Ship getSubmarine() {
-        return submarine;
-    }
-
-    public Ship getComputer_aircraftCarrier() {
-        return computer_aircraftCarrier;
-    }
-
-    public Ship getComputer_battleship() {
-        return computer_battleship;
-    }
-
-    public Ship getComputer_cruiser() {
-        return computer_cruiser;
-    }
-
-    public Ship getComputer_destroyer() {
-        return computer_destroyer;
-    }
-
-    public Ship getComputer_submarine() {
-        return computer_submarine;
-    }
-
-    public List<Shot> getPlayerHits() {
-        return playerHits;
-    }
-
-    public List<Shot> getPlayerMisses() {
-        return playerMisses;
-    }
-
-    public List<Shot> getCpuHits() {
-        return computerHits;
-    }
-
-    public List<Shot> getCpuMisses() {
-        return computerMisses;
-    }
-
     public int placeShip(String shipName, int across, int down, String orientation) {
         int length = 0;
         switch (shipName) {
@@ -180,22 +124,6 @@ public class BattleshipModel {
                 break;
         }
         return 0;
-    }
-
-    public Ship[] getAllShips() {
-        Ship[] ships = {
-                aircraftCarrier,
-                battleship,
-                cruiser,
-                destroyer,
-                submarine,
-                computer_aircraftCarrier,
-                computer_battleship,
-                computer_cruiser,
-                computer_destroyer,
-                computer_submarine
-        };
-        return ships;
     }
 
     public Ship[] getCpuShips() {
