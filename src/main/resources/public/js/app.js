@@ -10,6 +10,14 @@ $( document ).ready(function() {
 });
 
 
+var state;
+var lastClickAcross;
+var lastClickDown;
+
+function setDialogBox(stringText) {
+    elem = document.getElementById("dbContent");
+    elem.setInnerHtml("<td> " + stringText + " </td>");
+}
 
 function gridclick(elem) {
     var id = elem.getAttribute("id");
@@ -24,6 +32,25 @@ function gridclick(elem) {
         console.log("DOWN:");
         console.log(downInt);
     // Call all methods to be notified of click events.
+        if(state == "fire") {
+            fire(acrossInt, downInt);
+            state = "fire";
+        }
+        else if(state.startsWith("placeShip1_")) {
+            var name = state.substring(11);
+            state = "placeShip2_" + name;
+        }
+        else if(state.startsWith("placeShip2_")) {
+            var name = state.substring(11);
+            placeShip(lastClickAcross, lastClickDown, acrossInt, downInt, name);
+            state = "fire";
+        }
+        else if(state == "scan") {
+            scan(acrossInt, downInt);
+            state = "fire";
+        }
+    //
+    lastClick
 }
 
 function placeShip() {
