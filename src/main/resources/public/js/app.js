@@ -9,6 +9,23 @@ $( document ).ready(function() {
    });
 });
 
+
+
+function gridclick(elem) {
+    var id = elem.getAttribute("id");
+    var splitIndex = id.indexOf("_");
+    var downString = id.substring(0, splitIndex);
+    var acrossString = id.substring(splitIndex + 1);
+
+    var acrossInt = parseInt(acrossString);
+    var downInt = parseInt(downString);
+        console.log("ACROSS:");
+        console.log(acrossInt);
+        console.log("DOWN:");
+        console.log(downInt);
+    // Call all methods to be notified of click events.
+}
+
 function placeShip() {
    // This ajax call will asnychonously call the back end, and tell it where to place the ship, then get back a game model with the ship placed, and display the new model.
    var request = $.ajax({
