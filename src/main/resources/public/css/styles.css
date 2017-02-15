@@ -17,58 +17,90 @@ header {
 section#content {
 	display: table;
 	background: #444444;
+	border: 16px solid #F44336;
+	margin: auto;
 }
 
 section#board {
 	display:table-cell;
 	background: #444444;
 	width: 50%;
+	margin: auto;
+	border-right: 1px solid black;
 }
 
 section#console {
 	display:table-cell;
 	background: #AAAAAA;
 	width: 50%;
+	margin: auto;
 }
 
 div#container {
-	margin: 0px auto;
-	background: #444444;
+	background: black;
 	width: 80%;
 	height: 100%;
+	margin: auto;
 }
 
 div#consoleContent {
-	margin: 0px auto;
 	background: #AAAAAA;
+	border: 16px solid #F44336;
 	width: 50%;
+	margin: auto;
 }
 
-table, th, td {
-	border-collapse: collapse;
-	border: 1px soild black;
+button {
+	text-align: center;
+	background-color: #F44336;
+	border: none;
+	width: 75%;
+	padding: 10px;
 }
 
 .scoreCard{
 	width: 100%;
+	border: 1px soild black;
 }
 
 .gameBoard{
-	background: #FFFFFF;
+	background: #DDDDDD;
+	border: 1px;
+	border-spacing: 0px;
+}
+
+.gameBoard table{
+	border-collapse: collapse;
 }
 
 .gameBoard td {
+	border: 1px solid black;
 	width: 64px;
 	height:64px;
 }
 
+#header.gameBoard th {
+    border-bottom: 1px solid black;
+}
+
 .theirBoard{
-	background: #FFFFFF;
+	background: #AAAAAA;
+	border: 1px;
+	border-spacing: 0px;
+}
+
+.theirBoard table{
+	border-collapse: collapse;
 }
 
 .theirBoard td {
+	border: 1px solid black;
 	width: 24px;
 	height:24px;
+}
+
+#header.theirBoard th {
+    border-bottom: 1px solid black;
 }
 
 #MyBoard .ship{
