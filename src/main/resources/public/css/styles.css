@@ -2,26 +2,77 @@ html,
 body {
     margin: 0;
     padding: 0;
+	background: black;
+	font-family: verdana, arial, sans-serif;
 }
 
-.gameBoard{
-/*with:100px;
-height:100px;*/
-background-color: light-gray;
+header {
+	background: #444444;
+	text-align: center;
+	font-family: verdana, arial, sans-serif;
+	color: white;
+	width: 100%;
 }
 
-.gameBoard td {
-width: 40px;
-height:40px;
-background-color:blue;
+section#content {
+	display: table;
+	background: #444444;
+}
+
+section#board {
+	display:table-cell;
+	background: #444444;
+	width: 50%;
+}
+
+section#console {
+	display:table-cell;
+	background: #AAAAAA;
+	width: 50%;
+}
+
+div#container {
+	margin: 0px auto;
+	background: #444444;
+	width: 80%;
+	height: 100%;
+}
+
+div#consoleContent {
+	margin: 0px auto;
+	background: #AAAAAA;
+	width: 50%;
 }
 
 table, th, td {
-   border: 1px solid black;
+	border-collapse: collapse;
+	border: 1px soild black;
+}
+
+.scoreCard{
+	width: 100%;
+}
+
+.gameBoard{
+	background: #FFFFFF;
+}
+
+.gameBoard td {
+	width: 64px;
+	height:64px;
+}
+
+.theirBoard{
+	background: #FFFFFF;
+}
+
+.theirBoard td {
+	width: 24px;
+	height:24px;
 }
 
 #MyBoard .ship{
-background-color: orange;
+	background-color: orange;
 }
 
 /*
