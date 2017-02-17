@@ -1,211 +1,160 @@
 package edu.oregonstate.cs361.battleship;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+/**
+ * Created by michaelhilton on 1/4/17.
+ */
 public class BattleshipModel {
 
-    private static final String AIRCRAFT_CARRIER = "aircraftCarrier";
-    private static final String BATTLESHIP = "battleship";
-    private static final String CRUISER = "cruiser";
-    private static final String DESTROYER = "destroyer";
-    private static final String SUBMARINE = "submarine";
-    private static final String CPU_AIRCRAFT_CARRIER = "computer_" + AIRCRAFT_CARRIER;
-    private static final String CPU_BATTLESHIP = "computer_" + BATTLESHIP;
-    private static final String CPU_CRUISER = "computer_" + CRUISER;
-    private static final String CPU_DESTROYER = "computer_" + DESTROYER;
-    private static final String CPU_SUBMARINE = "computer_" + SUBMARINE;
+    private Ship aircraftCarrier = new Ship("AircraftCarrier",5, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship battleship = new Ship("Battleship",4, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship cruiser = new Ship("Cruiser",3, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship destroyer = new Ship("Destroyer",2, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship submarine = new Ship("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
 
-    // Opted for individual objects instead of arrays in the interest of JSON compatibility...
-    // If anyone else wants to figure out how to make Ship arrays without compromising JSON structure,
-    // then go for it. - Trey, 2/1
-    private Ship aircraftCarrier, battleship, cruiser, destroyer, submarine;
-    private Ship computer_aircraftCarrier, computer_battleship, computer_cruiser, computer_destroyer, computer_submarine;
-    private List<Shot> playerHits, playerMisses, computerHits, computerMisses;
+    private Ship computer_aircraftCarrier = new Ship("Computer_AircraftCarrier",5, new Coordinate(2,2),new Coordinate(2,7));
+    private Ship computer_battleship = new Ship("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(6,8));
+    private Ship computer_cruiser = new Ship("Computer_Cruiser",3, new Coordinate(4,1),new Coordinate(4,4));
+    private Ship computer_destroyer = new Ship("Computer_Destroyer",2, new Coordinate(7,3),new Coordinate(7,5));
+    private Ship computer_submarine = new Ship("Computer_Submarine",2, new Coordinate(9,6),new Coordinate(9,8));
+
+    ArrayList<Coordinate> playerHits;
+    private ArrayList<Coordinate> playerMisses;
+    ArrayList<Coordinate> computerHits;
+    private ArrayList<Coordinate> computerMisses;
+
+    boolean scanResult = false;
+
+
 
     public BattleshipModel() {
-        this.playerHits = new LinkedList<>();
-        this.playerMisses = new LinkedList<>();
-        this.computerHits = new LinkedList<>();
-        this.computerMisses = new LinkedList<>();
-
-        this.aircraftCarrier = new Ship(AIRCRAFT_CARRIER, 5, new Point(0, 0), new Point(0, 0));
-        this.battleship = new Ship(BATTLESHIP, 4, new Point(0, 0), new Point(0, 0));
-        this.cruiser = new Ship(CRUISER, 3, new Point(0, 0), new Point(0, 0));
-        this.destroyer = new Ship(DESTROYER, 2, new Point(0, 0), new Point(0, 0));
-        this.submarine = new Ship(SUBMARINE, 2, new Point(0, 0), new Point(0, 0));
-        this.computer_aircraftCarrier = new Ship(CPU_AIRCRAFT_CARRIER, 0, new Point(0, 0), new Point(0, 0));
-        this.computer_battleship = new Ship(CPU_BATTLESHIP, 0, new Point(0, 0), new Point(0, 0));
-        this.computer_cruiser = new Ship(CPU_CRUISER, 0, new Point(0, 0), new Point(0, 0));
-        this.computer_destroyer = new Ship(CPU_DESTROYER, 0, new Point(0, 0), new Point(0, 0));
-        this.computer_submarine = new Ship(CPU_SUBMARINE, 0, new Point(0, 0), new Point(0, 0));
+        playerHits = new ArrayList<>();
+        playerMisses= new ArrayList<>();
+        computerHits = new ArrayList<>();
+        computerMisses= new ArrayList<>();
     }
 
-    public int placeShip(String shipName, int across, int down, String orientation) {
-        int length = 0;
-        switch (shipName) {
-            case AIRCRAFT_CARRIER:
-            case CPU_AIRCRAFT_CARRIER:
-                length = 5;
-                break;
-            case BATTLESHIP:
-            case CPU_BATTLESHIP:
-                length = 4;
-                break;
-            case CRUISER:
-            case CPU_CRUISER:
-                length = 3;
-                break;
-            case DESTROYER:
-            case SUBMARINE:
-            case CPU_SUBMARINE:
-            case CPU_DESTROYER:
-                length = 2;
-                break;
-        }
-        Point start = new Point(across, down);
-        Point end;
-        if (orientation.equals("horizontal")) {
-            end = start.traverse(0, length - 1);
-        } else if (orientation.equals("vertical")) {
-            end = start.traverse(length - 1, 0);
+
+    public Ship getShip(String shipName) {
+        if (shipName.equalsIgnoreCase("aircraftcarrier")) {
+            return aircraftCarrier;
+        } if(shipName.equalsIgnoreCase("battleship")) {
+            return battleship;
+        } if(shipName.equalsIgnoreCase("Cruiser")) {
+        return cruiser;
+        } if(shipName.equalsIgnoreCase("destroyer")) {
+            return destroyer;
+        }if(shipName.equalsIgnoreCase("submarine")) {
+            return submarine;
         } else {
-            throw new RuntimeException("orientation must be horizontal or vertical!");
+            return null;
         }
-        Ship temp = new Ship(shipName, length, start, end);
+    }
 
-        if (shipName.startsWith("computer_")) {
-            if (end.getAcross() > 10 || end.getDown() > 10)
-                return 1;
-
-            for (Ship ship : getCpuShips()) {
-                if (ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
-                    return 1;
+    public BattleshipModel placeShip(String shipName, String row, String col, String orientation) {
+        int rowint = Integer.parseInt(row);
+        int colInt = Integer.parseInt(col);
+        if(orientation.equals("horizontal")){
+            if (shipName.equalsIgnoreCase("aircraftcarrier")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+5));
+            } if(shipName.equalsIgnoreCase("battleship")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+4));
+            } if(shipName.equalsIgnoreCase("Cruiser")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+3));
+            } if(shipName.equalsIgnoreCase("destroyer")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+2));
+            }if(shipName.equalsIgnoreCase("submarine")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 2));
+            }
+        }else{
+            //vertical
+                if (shipName.equalsIgnoreCase("aircraftcarrier")) {
+                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+5,colInt));
+                } if(shipName.equalsIgnoreCase("battleship")) {
+                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+4,colInt));
+                } if(shipName.equalsIgnoreCase("Cruiser")) {
+                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+3,colInt));
+                } if(shipName.equalsIgnoreCase("destroyer")) {
+                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+2,colInt));
+                }if(shipName.equalsIgnoreCase("submarine")) {
+                    this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 2, colInt));
                 }
-            }
-        } else {
-            for (Ship ship : getPlayerShips()) {
-                if (ship.overLapsWith(temp) && !temp.getName().equals(ship.getName())) {
-                    throw new RuntimeException("Illegal ship placement: Overlapping ships!");
-                }
-            }
         }
-
-        switch (shipName) {
-            case AIRCRAFT_CARRIER:
-                aircraftCarrier = temp;
-                break;
-            case CPU_AIRCRAFT_CARRIER:
-                computer_aircraftCarrier = temp;
-                break;
-            case BATTLESHIP:
-                battleship = temp;
-                break;
-            case CPU_BATTLESHIP:
-                computer_battleship = temp;
-                break;
-            case CRUISER:
-                cruiser = temp;
-                break;
-            case CPU_CRUISER:
-                computer_cruiser = temp;
-                break;
-            case DESTROYER:
-                destroyer = temp;
-                break;
-            case SUBMARINE:
-                submarine = temp;
-                break;
-            case CPU_SUBMARINE:
-                computer_submarine = temp;
-                break;
-            case CPU_DESTROYER:
-                computer_destroyer = temp;
-                break;
-        }
-        return 0;
+        return this;
     }
 
-    public Ship[] getCpuShips() {
-        Ship[] ships = {
-                computer_aircraftCarrier,
-                computer_battleship,
-                computer_cruiser,
-                computer_destroyer,
-                computer_submarine
-        };
-        return ships;
-    }
-
-    public Ship[] getPlayerShips() {
-        Ship[] ships = {
-                aircraftCarrier,
-                battleship,
-                cruiser,
-                destroyer,
-                submarine
-        };
-        return ships;
-    }
-
-    public boolean fireAt(int x, int y) {
-        Shot checkShot = new Shot(x, y);
-
-        if ((computerHits.contains(checkShot)) || computerMisses.contains(checkShot)) {
-            throw new RuntimeException("You have already shot here.");
-        }
-
-        boolean hitAShip = false;
-        for (Ship s : getPlayerShips()) {
-            hitAShip |= s.overLapsWith(checkShot.getLoc());
-        }
-        if (hitAShip) {
-            computerHits.add(checkShot);
+    public void shootAtComputer(int row, int col) {
+        Coordinate coor = new Coordinate(row,col);
+        if(computer_aircraftCarrier.covers(coor)){
+            computerHits.add(coor);
+        }else if (computer_battleship.covers(coor)){
+            computerHits.add(coor);
+        }else if (computer_cruiser.covers(coor)){
+            computerHits.add(coor);
+        }else if (computer_destroyer.covers(coor)){
+            computerHits.add(coor);
+        }else if (computer_submarine.covers(coor)){
+            computerHits.add(coor);
         } else {
-            computerMisses.add(checkShot);
-        }
-
-        if (checkEndGame()) {
-            return true;
-        } else {
-            return false;
+            computerMisses.add(coor);
         }
     }
 
-    public boolean cpuFireAt() {
-        int x = 1;
-        Shot checkShot = new Shot(0,0);
+    public void shootAtPlayer() {
+        int max = 10;
+        int min = 1;
+        Random random = new Random();
+        int randRow = random.nextInt(max - min + 1) + min;
+        int randCol = random.nextInt(max - min + 1) + min;
 
-        while (x == 1) {
-             checkShot = new Shot((int) (Math.random() * 10) + 1, (int) (Math.random() * 10) + 1);
+        Coordinate coor = new Coordinate(randRow,randCol);
+        playerShot(coor);
+    }
 
-            if ((playerHits.contains(checkShot)) || playerMisses.contains(checkShot)) {
-                x = 1;
-            } else {
-                x = 0;
-                System.out.println("CPU Shot Fired");
-            }
+    void playerShot(Coordinate coor) {
+        if(playerMisses.contains(coor)){
+            System.out.println("Dupe");
         }
 
-        boolean hitAShip = false;
-        for (Ship s : getCpuShips()) {
-            hitAShip |= s.overLapsWith(checkShot.getLoc());
-        }
-        if (hitAShip) {
-            playerHits.add(checkShot);
+        if(aircraftCarrier.covers(coor)){
+            playerHits.add(coor);
+        }else if (battleship.covers(coor)){
+            playerHits.add(coor);
+        }else if (cruiser.covers(coor)){
+            playerHits.add(coor);
+        }else if (destroyer.covers(coor)){
+            playerHits.add(coor);
+        }else if (submarine.covers(coor)){
+            playerHits.add(coor);
         } else {
-            playerMisses.add(checkShot);
-        }
-
-        if (checkEndGame()) {
-            return true;
-        } else {
-            return false;
+            playerMisses.add(coor);
         }
     }
 
-    public boolean checkEndGame() {
-        return ((playerMisses.size() == 16) || playerHits.size() == 16);
+
+    public void scan(int rowInt, int colInt) {
+        Coordinate coor = new Coordinate(rowInt,colInt);
+        scanResult = false;
+        if(computer_aircraftCarrier.scan(coor)){
+            scanResult = true;
+        }
+        else if (computer_battleship.scan(coor)){
+            scanResult = true;
+        }else if (computer_cruiser.scan(coor)){
+            scanResult = true;
+        }else if (computer_destroyer.scan(coor)){
+            scanResult = true;
+        }else if (computer_submarine.scan(coor)){
+            scanResult = true;
+        } else {
+            scanResult = false;
+        }
+    }
+
+    public boolean getScanResult() {
+        return scanResult;
     }
 }
-
