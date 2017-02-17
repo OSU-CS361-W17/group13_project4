@@ -49,8 +49,8 @@ function gridclick(elem) {
             scan(acrossInt, downInt);
             state = "fire";
         }
-    //
-    lastClick
+        lastClickAcross = acrossInt;
+        lastClickDown = downInt;
 }
 
 function placeShip() {
