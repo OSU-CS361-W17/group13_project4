@@ -46,11 +46,15 @@ public class Main {
 
     //This controller
     private static String placeShip(Request req) {
+
         BattleshipModel currModel = getModelFromReq(req);
         String id = req.params("id");
         String row = req.params("row");
         String col = req.params("col");
         String orientation = req.params("orientation");
+
+        System.out.println(req.url());
+
         currModel = currModel.placeShip(id,row,col,orientation);
         Gson gson = new Gson();
         return gson.toJson(currModel);

@@ -43,8 +43,6 @@ function gridclickEnemy(elem) {
         else {
             state = "fire";
         }
-        lastClickAcross = acrossInt;
-        lastClickDown = downInt;
 }
 
 function test() {
@@ -74,24 +72,48 @@ function gridclickAlly(elem) {
          else {
             state = "fire";
          }
+         lastClickAcross = acrossInt;
+         lastClickDown = downInt;
 }
 
+function prepShipPlace(name) {
+    state = "placeShip1_" + name;
+}
 
-function placeShip() {
+function placeShip(click1Across, click1Down, click2Across, click2Down, name) {
+    var testval1 = (click1Across - click2Across);
+    var testval2 = (click1Down - click2Down);
+    if(testval1 == 0 && testval2 != 0) {
+        orientation = "vertical"
+    }
+    else if(testval2 == 0 && testval1 != 0) {
+        orientation = "horizontal"
+    }
+    else {
+        var testval3 = Math.abs(testval1/testval2);
+        if(testval3 > 1) {
+            orientation = "vertical";
+        }
+        else {
+            orientation = "horizontal";
+        }
+
+    }
+
    // This ajax call will asynchronously call the back end, and tell it where to place the ship, then get back a game model with the ship placed, and display the new model.
    var request = $.ajax({
-     url: "/placeShip/"+$( "#shipSelec" ).val()+"/"+$( "#rowSelec" ).val()+"/"+$( "#colSelec" ).val()+"/"+$( "#orientationSelec" ).val(),
+     url: "/placeShip/"+name+"/"+click1Down+"/"+click1Across+"/"+orientation,
      method: "post",
      data: JSON.stringify(gameModel),
      contentType: "application/json; charset=utf-8",
      dataType: "json"
    });
 
+   console.log(request);
    //This will be called when the call is returned from the server.
    request.done(function( currModel ) {
      displayGameState(currModel);
      gameModel = currModel;
-
    });
 
    // if there is a problem, and the back end does not respond, then an alert will be shown.
