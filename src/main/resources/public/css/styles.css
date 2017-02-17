@@ -1,4 +1,4 @@
-html,
+﻿html,
 body {
     margin: 0;
     padding: 0;
@@ -79,28 +79,8 @@ div#theirBoard {
 	border: 1px soild black;
 }
 
-.gameBoard{
-	background: #DDDDDD;
-	border: 1px;
-	border-spacing: 0px;
-}
-
-.gameBoard table{
-	border-collapse: collapse;
-}
-
-.gameBoard td {
-	border: 1px solid black;
-	width: 64px;
-	height:64px;
-}
-
-#header.gameBoard th {
-    border-bottom: 1px solid black;
-}
-
 .theirBoard{
-	background: #AAAAAA;
+	background: #DDDDDD;
 	border: 1px;
 	border-spacing: 0px;
 }
@@ -111,11 +91,31 @@ div#theirBoard {
 
 .theirBoard td {
 	border: 1px solid black;
+	width: 64px;
+	height:64px;
+}
+
+#header.theirBoard th {
+    border-bottom: 1px solid black;
+}
+
+.myBoard{
+	background: #AAAAAA;
+	border: 1px;
+	border-spacing: 0px;
+}
+
+.myBoard table{
+	border-collapse: collapse;
+}
+
+.myBoard td {
+	border: 1px solid black;
 	width: 24px;
 	height:24px;
 }
 
-#header.theirBoard th {
+#header.myBoard th {
     border-bottom: 1px solid black;
 }
 

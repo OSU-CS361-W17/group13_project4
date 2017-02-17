@@ -125,7 +125,7 @@ function placeShip(click1Across, click1Down, click2Across, click2Down, name) {
 //Similar to placeShip, but instead it will fire at a location the user selects.
 function fire(acrossInt, downInt){
    var request = $.ajax({
-     url: "/fire/"+$( acrossInt ).val()+"/"+$( downInt ).val(),
+     url: "/fire/"+acrossInt.val()+"/"+downInt.val(),
      method: "post",
      data: JSON.stringify(gameModel),
      contentType: "application/json; charset=utf-8",
@@ -146,8 +146,8 @@ function fire(acrossInt, downInt){
 
 //This function will display the game model.  It displays the ships on the users board, and then shows where there have been hits and misses on both boards.
 function displayGameState(gameModel){
-$( '#MyBoard td'  ).css("background-color", "blue");
-$( '#TheirBoard td'  ).css("background-color", "blue");
+$( '#myBoard td'  ).src = "sprites/WaterSmall.png";
+$( '#theirBoard td'  ).src = "sprites/Water.png";
 
 displayShip(gameModel.aircraftCarrier);
 displayShip(gameModel.battleship);
@@ -156,17 +156,17 @@ displayShip(gameModel.destroyer);
 displayShip(gameModel.submarine);
 
 for (var i = 0; i < gameModel.computerMisses.length; i++) {
-   $( '#TheirBoard #' + gameModel.computerMisses[i].Across + '_' + gameModel.computerMisses[i].Down ).css("background-color", "green");
+   $( '#theirBoard #' + gameModel.computerMisses[i].Across + '_' + gameModel.computerMisses[i].Down ).src = "sprites/Miss.png";
 }
 for (var i = 0; i < gameModel.computerHits.length; i++) {
-   $( '#TheirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).css("background-color", "red");
+   $( '#theirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).src = "sprites/Hit.png";
 }
 
 for (var i = 0; i < gameModel.playerMisses.length; i++) {
-   $( '#MyBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).css("background-color", "green");
+   $( '#myBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).src = "sprites/MissSmall.png";
 }
 for (var i = 0; i < gameModel.playerHits.length; i++) {
-   $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-color", "red");
+   $( '#myBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).src = "sprites/HitSmall.png";
 }
 
 
@@ -183,11 +183,11 @@ function displayShip(ship){
  if(startCoordAcross > 0){
     if(startCoordAcross == endCoordAcross){
         for (i = startCoordDown; i <= endCoordDown; i++) {
-            $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-color", "yellow");
+            $( '#myBoard #'+startCoordAcross+'_'+i  ).src = "sprites/ShipSmall.png";
         }
     } else {
         for (i = startCoordAcross; i <= endCoordAcross; i++) {
-            $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-color", "yellow");
+            $( '#myBoard #'+i+'_'+startCoordDown  ).src = "sprites/ShipSmall.png";
         }
     }
  }
