@@ -158,17 +158,17 @@ displayShip(gameModel.destroyer);
 displayShip(gameModel.submarine);
 
 for (var i = 0; i < gameModel.computerMisses.length; i++) {
-   document.getElementById("e" + gameModel.computerMisses[i].Across + '_' + gameModel.computerMisses[i].Down ).innerHTML = '<img src="sprites/Miss.png" alt="" border=0 height=64 width=64>';
+   document.getElementById("e" + gameModel.computerMisses[i].Down + '_' + gameModel.computerMisses[i].Across ).innerHTML = '<img src="sprites/Miss.png" alt="" border=0 height=64 width=64>';
 }
 for (var i = 0; i < gameModel.computerHits.length; i++) {
-   document.getElementById("e" + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).innerHTML = '<img src="sprites/Hit.png" alt="" border=0 height=64 width=64>';
+   document.getElementById("e" + gameModel.computerHits[i].Down + '_' + gameModel.computerHits[i].Across ).innerHTML = '<img src="sprites/Hit.png" alt="" border=0 height=64 width=64>';
 }
 
 for (var i = 0; i < gameModel.playerMisses.length; i++) {
-   document.getElementById(gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).innerHTML = '<img src="sprites/MissSmall.png" alt="" border=0 height=24 width=24>';
+   document.getElementById(gameModel.playerMisses[i].Down + '_' + gameModel.playerMisses[i].Across ).innerHTML = '<img src="sprites/MissSmall.png" alt="" border=0 height=24 width=24>';
 }
 for (var i = 0; i < gameModel.playerHits.length; i++) {
-   document.getElementById(gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).innerHTML = '<img src="sprites/HitSmall.png" alt="" border=0 height=24 width=24>';
+   document.getElementById(gameModel.playerHits[i].Down + '_' + gameModel.playerHits[i].Across ).innerHTML = '<img src="sprites/HitSmall.png" alt="" border=0 height=24 width=24>';
 }
 
 
