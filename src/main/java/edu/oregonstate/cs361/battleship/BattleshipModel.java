@@ -57,7 +57,7 @@ public class BattleshipModel {
     public BattleshipModel placeShip(String shipName, String row, String col, String orientation) {
         int rowint = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
-        if(orientation.equals("horizontal")){
+        if(orientation.equals("vertical")){
             if (shipName.equalsIgnoreCase("aircraftcarrier")) {
                 this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+4));
             } if(shipName.equalsIgnoreCase("battleship")) {
@@ -70,7 +70,7 @@ public class BattleshipModel {
                 this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
             }
         }else{
-            //vertical
+            //horizontal
                 if (shipName.equalsIgnoreCase("aircraftcarrier")) {
                     this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+4,colInt));
                 } if(shipName.equalsIgnoreCase("battleship")) {
