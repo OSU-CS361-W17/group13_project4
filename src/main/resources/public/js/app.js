@@ -15,11 +15,11 @@ var lastClickAcross;
 var lastClickDown;
 
 function setDialogBox(stringText) {
-    elem = document.getElementById("dbContent");
+    var elem = document.getElementById("dbContent");
     elem.setInnerHtml("<td> " + stringText + " </td>");
 }
 
-function gridclick(elem) {
+function gridclickEnemy(elem) {
     var id = elem.getAttribute("id");
     var splitIndex = id.indexOf("_");
     var downString = id.substring(0, splitIndex);
@@ -27,47 +27,93 @@ function gridclick(elem) {
 
     var acrossInt = parseInt(acrossString);
     var downInt = parseInt(downString);
-        console.log("ACROSS:");
+        console.log("ACROSS_ENEMY:");
         console.log(acrossInt);
-        console.log("DOWN:");
+        console.log("DOWN_ENEMY:");
         console.log(downInt);
     // Call all methods to be notified of click events.
         if(state == "fire") {
             fire(acrossInt, downInt);
             state = "fire";
         }
-        else if(state.startsWith("placeShip1_")) {
-            var name = state.substring(11);
-            state = "placeShip2_" + name;
-        }
-        else if(state.startsWith("placeShip2_")) {
-            var name = state.substring(11);
-            placeShip(lastClickAcross, lastClickDown, acrossInt, downInt, name);
-            state = "fire";
-        }
         else if(state == "scan") {
             scan(acrossInt, downInt);
             state = "fire";
         }
-    //
-    lastClick
+        else {
+            state = "fire";
+        }
 }
 
-function placeShip() {
-   // This ajax call will asnychonously call the back end, and tell it where to place the ship, then get back a game model with the ship placed, and display the new model.
+function test() {
+    console.log("test called");
+}
+
+function gridclickAlly(elem) {
+        var id = elem.getAttribute("id");
+        var splitIndex = id.indexOf("_");
+        var downString = id.substring(0, splitIndex);
+        var acrossString = id.substring(splitIndex + 1);
+        var acrossInt = parseInt(acrossString);
+        var downInt = parseInt(downString);
+        console.log("ACROSS_ALLY:");
+        console.log(acrossInt);
+        console.log("DOWN_ALLY:");
+        console.log(downInt);
+        if(state.startsWith("placeShip1_")) {
+             var name = state.substring(11);
+             state = "placeShip2_" + name;
+         }
+         else if(state.startsWith("placeShip2_")) {
+             var name = state.substring(11);
+             placeShip(lastClickAcross, lastClickDown, acrossInt, downInt, name);
+             state = "fire";
+         }
+         else {
+            state = "fire";
+         }
+         lastClickAcross = acrossInt;
+         lastClickDown = downInt;
+}
+
+function prepShipPlace(name) {
+    state = "placeShip1_" + name;
+}
+
+function placeShip(click1Across, click1Down, click2Across, click2Down, name) {
+    var testval1 = (click1Across - click2Across);
+    var testval2 = (click1Down - click2Down);
+    if(testval1 == 0 && testval2 != 0) {
+        orientation = "vertical"
+    }
+    else if(testval2 == 0 && testval1 != 0) {
+        orientation = "horizontal"
+    }
+    else {
+        var testval3 = Math.abs(testval1/testval2);
+        if(testval3 > 1) {
+            orientation = "vertical";
+        }
+        else {
+            orientation = "horizontal";
+        }
+
+    }
+
+   // This ajax call will asynchronously call the back end, and tell it where to place the ship, then get back a game model with the ship placed, and display the new model.
    var request = $.ajax({
-     url: "/placeShip/"+$( "#shipSelec" ).val()+"/"+$( "#rowSelec" ).val()+"/"+$( "#colSelec" ).val()+"/"+$( "#orientationSelec" ).val(),
+     url: "/placeShip/"+name+"/"+click1Down+"/"+click1Across+"/"+orientation,
      method: "post",
      data: JSON.stringify(gameModel),
      contentType: "application/json; charset=utf-8",
      dataType: "json"
    });
 
+   console.log(request);
    //This will be called when the call is returned from the server.
    request.done(function( currModel ) {
      displayGameState(currModel);
      gameModel = currModel;
-
    });
 
    // if there is a problem, and the back end does not respond, then an alert will be shown.
@@ -77,9 +123,9 @@ function placeShip() {
 }
 
 //Similar to placeShip, but instead it will fire at a location the user selects.
-function fire(){
+function fire(acrossInt, downInt){
    var request = $.ajax({
-     url: "/fire/"+$( "#colFire" ).val()+"/"+$( "#rowFire" ).val(),
+     url: "/fire/"+$( acrossInt ).val()+"/"+$( downInt ).val(),
      method: "post",
      data: JSON.stringify(gameModel),
      contentType: "application/json; charset=utf-8",
