@@ -15,11 +15,11 @@ var lastClickAcross;
 var lastClickDown;
 
 function setDialogBox(stringText) {
-    elem = document.getElementById("dbContent");
+    var elem = document.getElementById("dbContent");
     elem.setInnerHtml("<td> " + stringText + " </td>");
 }
 
-function gridclick(elem) {
+function gridclickEnemy(elem) {
     var id = elem.getAttribute("id");
     var splitIndex = id.indexOf("_");
     var downString = id.substring(0, splitIndex);
@@ -27,31 +27,55 @@ function gridclick(elem) {
 
     var acrossInt = parseInt(acrossString);
     var downInt = parseInt(downString);
-        console.log("ACROSS:");
+        console.log("ACROSS_ENEMY:");
         console.log(acrossInt);
-        console.log("DOWN:");
+        console.log("DOWN_ENEMY:");
         console.log(downInt);
     // Call all methods to be notified of click events.
         if(state == "fire") {
             fire(acrossInt, downInt);
             state = "fire";
         }
-        else if(state.startsWith("placeShip1_")) {
-            var name = state.substring(11);
-            state = "placeShip2_" + name;
-        }
-        else if(state.startsWith("placeShip2_")) {
-            var name = state.substring(11);
-            placeShip(lastClickAcross, lastClickDown, acrossInt, downInt, name);
-            state = "fire";
-        }
         else if(state == "scan") {
             scan(acrossInt, downInt);
+            state = "fire";
+        }
+        else {
             state = "fire";
         }
         lastClickAcross = acrossInt;
         lastClickDown = downInt;
 }
+
+function test() {
+    console.log("test called");
+}
+
+function gridclickAlly(elem) {
+        var id = elem.getAttribute("id");
+        var splitIndex = id.indexOf("_");
+        var downString = id.substring(0, splitIndex);
+        var acrossString = id.substring(splitIndex + 1);
+        var acrossInt = parseInt(acrossString);
+        var downInt = parseInt(downString);
+        console.log("ACROSS_ALLY:");
+        console.log(acrossInt);
+        console.log("DOWN_ALLY:");
+        console.log(downInt);
+        if(state.startsWith("placeShip1_")) {
+             var name = state.substring(11);
+             state = "placeShip2_" + name;
+         }
+         else if(state.startsWith("placeShip2_")) {
+             var name = state.substring(11);
+             placeShip(lastClickAcross, lastClickDown, acrossInt, downInt, name);
+             state = "fire";
+         }
+         else {
+            state = "fire";
+         }
+}
+
 
 function placeShip() {
    // This ajax call will asynchronously call the back end, and tell it where to place the ship, then get back a game model with the ship placed, and display the new model.
@@ -77,7 +101,7 @@ function placeShip() {
 }
 
 //Similar to placeShip, but instead it will fire at a location the user selects.
-function fire(var acrossInt, var downInt){
+function fire(acrossInt, downInt){
    var request = $.ajax({
      url: "/fire/"+$( acrossInt ).val()+"/"+$( downInt ).val(),
      method: "post",
