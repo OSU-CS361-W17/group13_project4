@@ -125,7 +125,7 @@ function placeShip(click1Across, click1Down, click2Across, click2Down, name) {
 //Similar to placeShip, but instead it will fire at a location the user selects.
 function fire(acrossInt, downInt){
    var request = $.ajax({
-     url: "/fire/"+acrossInt.val()+"/"+downInt.val(),
+     url: "/fire/"+acrossInt+"/"+downInt,
      method: "post",
      data: JSON.stringify(gameModel),
      contentType: "application/json; charset=utf-8",
