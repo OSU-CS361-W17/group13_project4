@@ -118,6 +118,36 @@ function placeShip(click1Across, click1Down, click2Across, click2Down, name) {
    });
 }
 
+// Since scan requires initialization before clicking the board, this function exists
+function initiateScan(){
+    state = "scan";
+}
+
+// Copied the fire() code and changed to work with scan requests
+function scan(acrossInt, downInt){
+   var request = $.ajax({
+     url: "/scan/"+acrossInt+"/"+downInt,
+     method: "post",
+     data: JSON.stringify(gameModel),
+     contentType: "application/json; charset=utf-8",
+     dataType: "json"
+   });
+
+   request.done(function( currModel ) {
+     displayGameState(currModel);
+     gameModel = currModel;
+
+     if(gameModel.scanResult){
+        setDialogBox("Found a ship in the vicinity of " + acrossInt + "_" + downInt + "!");
+        document.getElementById("e" + downInt + '_' + acrossInt).innerHTML = '<img src="sprites/Scan.png" alt="" border=0 height=64 width=64>';
+     }
+
+   });
+
+   request.fail(function( jqXHR, textStatus ) {
+     alert( "Request failed: " + textStatus );
+   });
+}
 //Similar to placeShip, but instead it will fire at a location the user selects.
 function fire(acrossInt, downInt){
    var request = $.ajax({
