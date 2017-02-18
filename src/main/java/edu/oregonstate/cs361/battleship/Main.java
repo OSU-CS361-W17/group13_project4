@@ -82,6 +82,7 @@ public class Main {
         int rowInt = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
         currModel.scan(rowInt,colInt);
+        // Modification of scan functionality needs to happen here
         currModel.shootAtPlayer();
         Gson gson = new Gson();
         return gson.toJson(currModel);
