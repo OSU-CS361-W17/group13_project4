@@ -10,19 +10,19 @@ $( document ).ready(function() {
 });
 
 
-var state;
+var state = "fire";
 var lastClickAcross;
 var lastClickDown;
 
 function setDialogBox(stringText) {
     var elem = document.getElementById("dbContent");
-    elem.setInnerHtml("<td> " + stringText + " </td>");
+    elem.innerHTML = "<td> " + stringText + " </td>";
 }
 
 function gridclickEnemy(elem) {
     var id = elem.getAttribute("id");
     var splitIndex = id.indexOf("_");
-    var downString = id.substring(0, splitIndex);
+    var downString = id.substring(1, splitIndex);
     var acrossString = id.substring(splitIndex + 1);
 
     var acrossInt = parseInt(acrossString);
@@ -45,11 +45,8 @@ function gridclickEnemy(elem) {
         }
 }
 
-function test() {
-    console.log("test called");
-}
-
 function gridclickAlly(elem) {
+
         var id = elem.getAttribute("id");
         var splitIndex = id.indexOf("_");
         var downString = id.substring(0, splitIndex);
@@ -102,14 +99,13 @@ function placeShip(click1Across, click1Down, click2Across, click2Down, name) {
 
    // This ajax call will asynchronously call the back end, and tell it where to place the ship, then get back a game model with the ship placed, and display the new model.
    var request = $.ajax({
-     url: "/placeShip/"+name+"/"+click1Down+"/"+click1Across+"/"+orientation,
+     url: "/placeShip/"+name+"/"+click1Across+"/"+click1Down+"/"+orientation,
      method: "post",
      data: JSON.stringify(gameModel),
      contentType: "application/json; charset=utf-8",
      dataType: "json"
    });
 
-   console.log(request);
    //This will be called when the call is returned from the server.
    request.done(function( currModel ) {
      displayGameState(currModel);
@@ -146,8 +142,14 @@ function fire(acrossInt, downInt){
 
 //This function will display the game model.  It displays the ships on the users board, and then shows where there have been hits and misses on both boards.
 function displayGameState(gameModel){
-$( '#myBoard td'  ).src = "sprites/WaterSmall.png";
-$( '#theirBoard td'  ).src = "sprites/Water.png";
+console.log(gameModel);
+setDialogBox("click to fire!, press buttons to place ships!");
+for(var j = 1; j < 11; j++) {
+    for(var v = 1; v < 11; v++) {
+        document.getElementById("e" + j + '_' + v ).innerHTML = '<img src="sprites/Water.png" alt="" border=0 height=64 width=64>';
+        document.getElementById(j + '_' + v ).innerHTML = '<img src="sprites/WaterSmall.png" alt="" border=0 height=24 width=24>';
+    }
+}
 
 displayShip(gameModel.aircraftCarrier);
 displayShip(gameModel.battleship);
@@ -156,17 +158,17 @@ displayShip(gameModel.destroyer);
 displayShip(gameModel.submarine);
 
 for (var i = 0; i < gameModel.computerMisses.length; i++) {
-   $( '#theirBoard #' + gameModel.computerMisses[i].Across + '_' + gameModel.computerMisses[i].Down ).src = "sprites/Miss.png";
+   document.getElementById("e" + gameModel.computerMisses[i].Down + '_' + gameModel.computerMisses[i].Across ).innerHTML = '<img src="sprites/Miss.png" alt="" border=0 height=64 width=64>';
 }
 for (var i = 0; i < gameModel.computerHits.length; i++) {
-   $( '#theirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).src = "sprites/Hit.png";
+   document.getElementById("e" + gameModel.computerHits[i].Down + '_' + gameModel.computerHits[i].Across ).innerHTML = '<img src="sprites/Hit.png" alt="" border=0 height=64 width=64>';
 }
 
 for (var i = 0; i < gameModel.playerMisses.length; i++) {
-   $( '#myBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).src = "sprites/MissSmall.png";
+   document.getElementById(gameModel.playerMisses[i].Down + '_' + gameModel.playerMisses[i].Across ).innerHTML = '<img src="sprites/MissSmall.png" alt="" border=0 height=24 width=24>';
 }
 for (var i = 0; i < gameModel.playerHits.length; i++) {
-   $( '#myBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).src = "sprites/HitSmall.png";
+   document.getElementById(gameModel.playerHits[i].Down + '_' + gameModel.playerHits[i].Across ).innerHTML = '<img src="sprites/HitSmall.png" alt="" border=0 height=24 width=24>';
 }
 
 
@@ -180,14 +182,18 @@ function displayShip(ship){
  startCoordDown = ship.start.Down;
  endCoordAcross = ship.end.Across;
  endCoordDown = ship.end.Down;
+ if(startCoordDown > 10 || startCoordDown < 0 || startCoordDown > 10 || startCoordDown < 0 || endCoordAcross > 10 || endCoordAcross < 0 || endCoordDown > 10 || endCoordDown < 0) {
+    setDialogBox("failed to place ship.");
+    return;
+ }
  if(startCoordAcross > 0){
     if(startCoordAcross == endCoordAcross){
         for (i = startCoordDown; i <= endCoordDown; i++) {
-            $( '#myBoard #'+startCoordAcross+'_'+i  ).src = "sprites/ShipSmall.png";
+            document.getElementById(i+'_'+startCoordAcross).innerHTML = '<img src="sprites/ShipSmall.png" alt="" border=0 height=24 width=24>';
         }
     } else {
         for (i = startCoordAcross; i <= endCoordAcross; i++) {
-            $( '#myBoard #'+i+'_'+startCoordDown  ).src = "sprites/ShipSmall.png";
+            document.getElementById(startCoordDown+'_'+i).innerHTML = '<img src="sprites/ShipSmall.png" alt="" border=0 height=24 width=24>';
         }
     }
  }

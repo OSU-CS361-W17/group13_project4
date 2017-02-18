@@ -53,7 +53,7 @@ public class Main {
         String col = req.params("col");
         String orientation = req.params("orientation");
 
-        System.out.println(req.url());
+        System.out.println("id["+id+"] row["+row+"] col["+col+"] orientation["+orientation+"]");
 
         currModel = currModel.placeShip(id,row,col,orientation);
         Gson gson = new Gson();
