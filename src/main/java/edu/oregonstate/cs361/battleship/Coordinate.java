@@ -12,6 +12,13 @@ public class Coordinate {
         Down = number;
     }
 
+    public boolean equals(Object other) {
+        if(other instanceof Coordinate) {
+            return this.Across == ((Coordinate) other).Across && this.Down == ((Coordinate) other).Down;
+        }
+        return false;
+    }
+
     public int getDown() {
         return Down;
     }

@@ -1,5 +1,7 @@
 package edu.oregonstate.cs361.battleship;
 
+import java.util.List;
+
 /**
  * Created by michaelhilton on 1/5/17.
  */
@@ -20,7 +22,6 @@ public class Ship {
     public void setLocation(Coordinate s, Coordinate e) {
         start = s;
         end = e;
-
     }
 
     public boolean covers(Coordinate test) {
@@ -52,8 +53,10 @@ public class Ship {
         return name;
     }
 
-
-    public boolean scan(Coordinate coor) {
+    /*
+     * Default implementation of scan.
+     */
+    public  boolean scan(Coordinate coor) {
         if(covers(coor)){
             return true;
         }
@@ -70,5 +73,22 @@ public class Ship {
             return true;
         }
         return false;
+    }
+
+    /*
+     *  Default implementation of isSunk. returns true if all spaces are covered.
+     */
+    public boolean isSunk(List<Coordinate> hits) {
+        int totalShipHits = 0;
+        for(Coordinate c : hits) {
+            if(covers(c)) totalShipHits++;
+        }
+        boolean ret = totalShipHits == length;
+        System.out.println(name + " is " + (ret ? "" : "not") + " sunk");
+        return ret;
+    }
+
+    public int getLength() {
+        return length;
     }
 }

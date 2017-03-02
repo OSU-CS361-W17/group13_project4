@@ -67,7 +67,7 @@ public class Main {
         String col = req.params("col");
         int rowInt = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
-        currModel.shootAtComputer(rowInt,colInt);
+        currModel.shootAtComputer(rowInt, colInt);
         currModel.shootAtPlayer();
         Gson gson = new Gson();
         return gson.toJson(currModel);
