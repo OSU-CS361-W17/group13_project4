@@ -14,8 +14,8 @@ class BattleshipModelTest {
         BattleshipModel model = new BattleshipModel();
         assertEquals("AircraftCarrier",model.getShip("AircraftCarrier").getName());
         assertEquals("Battleship",model.getShip("battleship").getName());
-        assertEquals("Cruiser",model.getShip("Cruiser").getName());
-        assertEquals("Destroyer",model.getShip("Destroyer").getName());
+        assertEquals("Dinghy",model.getShip("Dinghy").getName());
+        assertEquals("Clipper",model.getShip("Clipper").getName());
         assertEquals("Submarine",model.getShip("Submarine").getName());
         assertNull(model.getShip("SS Minnow"));
     }
@@ -46,22 +46,22 @@ class BattleshipModelTest {
                 testIfCovers(model, "Battleship","1","1","vertical",9,9));
 
         assertEquals(true,
-                testIfCovers(model, "Cruiser","1","1","horizontal",1,1));
+                testIfCovers(model, "Clipper","1","1","horizontal",1,1));
         assertEquals(true,
-                testIfCovers(model, "Cruiser","1","1","vertical",1,1));
+                testIfCovers(model, "Clipper","1","1","vertical",1,1));
         assertEquals(false,
-                testIfCovers(model, "Cruiser","1","1","horizontal",9,9));
+                testIfCovers(model, "Clipper","1","1","horizontal",9,9));
         assertEquals(false,
-                testIfCovers(model, "Cruiser","1","1","vertical",9,9));
+                testIfCovers(model, "Clipper","1","1","vertical",9,9));
 
         assertEquals(true,
-                testIfCovers(model, "Destroyer","1","1","horizontal",1,1));
+                testIfCovers(model, "Dinghy","1","1","horizontal",1,1));
         assertEquals(true,
-                testIfCovers(model, "Destroyer","1","1","vertical",1,1));
+                testIfCovers(model, "Dinghy","1","1","vertical",1,1));
         assertEquals(false,
-                testIfCovers(model, "Destroyer","1","1","horizontal",9,9));
+                testIfCovers(model, "Dinghy","1","1","horizontal",9,9));
         assertEquals(false,
-                testIfCovers(model, "Destroyer","1","1","vertical",9,9));
+                testIfCovers(model, "Dinghy","1","1","vertical",9,9));
 
         assertEquals(true,
                 testIfCovers(model, "Submarine","1","1","horizontal",1,1));
@@ -110,8 +110,8 @@ class BattleshipModelTest {
         BattleshipModel model = new BattleshipModel();
         model.placeShip("Aircraftcarrier","1","5","horizontal");
         model.placeShip("Battleship","2","4","horizontal");
-        model.placeShip("Cruiser","3","3","horizontal");
-        model.placeShip("Destroyer","4","2","horizontal");
+        model.placeShip("Clipper","3","3","horizontal");
+        model.placeShip("Dinghy","4","2","horizontal");
         model.placeShip("Submarine","5","1","horizontal");
 
         model.playerShot(new Coordinate(9,9));
@@ -153,24 +153,32 @@ class BattleshipModelTest {
     void testWinner() {
         BattleshipModel model = new BattleshipModel();
         model.placeShip("Aircraftcarrier", "1", "1", "horizontal");
-        model.placeShip("Battleship", "2", "1", "horizontal");
-        model.placeShip("Cruiser", "3", "1", "horizontal");
-        model.placeShip("Destroyer", "4", "1", "horizontal");
-        model.placeShip("Submarine", "5", "1", "horizontal");
+        model.placeShip("Dinghy", "2", "2", "horizontal");
+        model.placeShip("Clipper", "3", "3", "horizontal");
+        model.placeShip("Battleship", "4", "4", "horizontal");
+        model.placeShip("Submarine", "5", "5", "horizontal");
+
         model.playerShot(new Coordinate(1, 1));
-        model.playerShot(new Coordinate(1, 2));
-        model.playerShot(new Coordinate(1, 3));
-        model.playerShot(new Coordinate(1, 4));
-        assertEquals("NONE", model.getWinner());
-        model.playerShot(new Coordinate(1, 5));
         model.playerShot(new Coordinate(2, 1));
-        model.playerShot(new Coordinate(2, 2));
-        model.playerShot(new Coordinate(2, 3));
-        model.playerShot(new Coordinate(2, 4));
         model.playerShot(new Coordinate(3, 1));
         model.playerShot(new Coordinate(4, 1));
-        model.playerShot(new Coordinate(5,1));
-        model.playerShot(new Coordinate(5,1));
+        assertEquals("NONE", model.getWinner());
+        System.out.println("NEXT");
+        // sink carrior
+        model.playerShot(new Coordinate(5, 1));
+        // sink Dinghy
+        model.playerShot(new Coordinate(2, 2));
+        // sing clipper
+        model.playerShot(new Coordinate(3, 3));
+        // sink battleship
+        model.playerShot(new Coordinate(4, 4));
+        model.playerShot(new Coordinate(5, 4));
+        model.playerShot(new Coordinate(6, 4));
+        model.playerShot(new Coordinate(7, 4));
+        // sing sub
+        model.playerShot(new Coordinate(5, 5));
+        model.playerShot(new Coordinate(6,5));
+
         assertEquals("COMPUTER", model.getWinner());
 
     }

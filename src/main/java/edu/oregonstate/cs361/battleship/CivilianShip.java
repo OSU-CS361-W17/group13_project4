@@ -18,9 +18,11 @@ public class CivilianShip extends Ship {
     public boolean isSunk(List<Coordinate> hits) {
         for(Coordinate c : hits) {
             if(covers(c)) {
+                System.out.println(name + " is sunk");
                 return true;
             }
         }
+        System.out.println(name + " is not sunk");
         return false;
     }
 }
