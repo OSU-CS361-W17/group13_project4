@@ -10,16 +10,16 @@ import java.util.Random;
 public class BattleshipModel {
 
     private Ship aircraftCarrier = new Ship("AircraftCarrier",5, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship battleship = new StealthShip("Battleship",4, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship cruiser = new CivilianShip("Cruiser",3, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship destroyer = new CivilianShip("Destroyer",2, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship submarine = new StealthShip("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
+    private StealthShip battleship = new StealthShip("Battleship",4, new Coordinate(0,0),new Coordinate(0,0));
+    private CivilianShip clipper = new CivilianShip("Clipper",3, new Coordinate(0,0),new Coordinate(0,0));
+    private CivilianShip dinghy = new CivilianShip("Dinghy",1, new Coordinate(0,0),new Coordinate(0,0));
+    private StealthShip submarine = new StealthShip("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
 
     private Ship computer_aircraftCarrier = new Ship("Computer_AircraftCarrier",5, new Coordinate(2,2),new Coordinate(2,6));
-    private Ship computer_battleship = new StealthShip("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(5,8));
-    private Ship computer_cruiser = new CivilianShip("Computer_Cruiser",3, new Coordinate(4,1),new Coordinate(4,3));
-    private Ship computer_destroyer = new CivilianShip("Computer_Destroyer",2, new Coordinate(7,3),new Coordinate(7,4));
-    private Ship computer_submarine = new StealthShip("Computer_Submarine",2, new Coordinate(9,6),new Coordinate(9,7));
+    private StealthShip computer_battleship = new StealthShip("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(5,8));
+    private CivilianShip computer_clipper = new CivilianShip("Computer_Clipper",3, new Coordinate(4,1),new Coordinate(4,3));
+    private CivilianShip computer_dinghy = new CivilianShip("Computer_Dinghy",1, new Coordinate(7,3),new Coordinate(7,4));
+    private StealthShip computer_submarine = new StealthShip("Computer_Submarine",2, new Coordinate(9,6),new Coordinate(9,7));
 
     ArrayList<Coordinate> playerHits;
     private ArrayList<Coordinate> playerMisses;
@@ -41,8 +41,8 @@ public class BattleshipModel {
         List<Ship> list = new ArrayList<>();
         list.add(aircraftCarrier);
         list.add(battleship);
-        list.add(cruiser);
-        list.add(destroyer);
+        list.add(clipper);
+        list.add(dinghy);
         list.add(submarine);
         return list;
     }
@@ -50,8 +50,8 @@ public class BattleshipModel {
         List<Ship> list = new ArrayList<>();
         list.add(computer_aircraftCarrier);
         list.add(computer_battleship);
-        list.add(computer_cruiser);
-        list.add(computer_destroyer);
+        list.add(computer_clipper);
+        list.add(computer_dinghy);
         list.add(computer_submarine);
         return list;
     }
@@ -61,10 +61,10 @@ public class BattleshipModel {
             return aircraftCarrier;
         } if(shipName.equalsIgnoreCase("battleship")) {
             return battleship;
-        } if(shipName.equalsIgnoreCase("Cruiser")) {
-        return cruiser;
-        } if(shipName.equalsIgnoreCase("destroyer")) {
-            return destroyer;
+        } if(shipName.equalsIgnoreCase("clipper")) {
+        return clipper;
+        } if(shipName.equalsIgnoreCase("dinghy")) {
+            return dinghy;
         }if(shipName.equalsIgnoreCase("submarine")) {
             return submarine;
         } else {
