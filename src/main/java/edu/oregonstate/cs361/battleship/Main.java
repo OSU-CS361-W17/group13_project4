@@ -31,7 +31,7 @@ public class Main {
         return gson.toJson(bm);
     }
 
-    //This function accepts an HTTP request and deseralizes it into an actual Java object.
+    //This function accepts an HTTP request and deserializes it into an actual Java object.
     private static BattleshipModel getModelFromReq(Request req){
         Gson gson = new Gson();
         String result = "";
