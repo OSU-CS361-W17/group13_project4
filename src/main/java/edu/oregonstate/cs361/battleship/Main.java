@@ -69,8 +69,13 @@ public class Main {
         int colInt = Integer.parseInt(col);
         currModel.shootAtComputer(rowInt, colInt);
         currModel.shootAtPlayer();
+        String winnerCheck = currModel.getWinner();
         Gson gson = new Gson();
-        return gson.toJson(currModel);
+
+        if((winnerCheck.equals("COMPUTER")) || (winnerCheck.equals("PLAYER")))
+            return gson.toJson(newModel());
+        else
+            return gson.toJson(currModel);
     }
 
 
