@@ -31,7 +31,7 @@ public class Main {
         return gson.toJson(bm);
     }
 
-    //This function accepts an HTTP request and deseralizes it into an actual Java object.
+    //This function accepts an HTTP request and deserializes it into an actual Java object.
     private static BattleshipModel getModelFromReq(Request req){
         Gson gson = new Gson();
         String result = "";
@@ -69,8 +69,13 @@ public class Main {
         int colInt = Integer.parseInt(col);
         currModel.shootAtComputer(rowInt, colInt);
         currModel.shootAtPlayer();
+        String winnerCheck = currModel.getWinner();
         Gson gson = new Gson();
-        return gson.toJson(currModel);
+
+        if((winnerCheck.equals("COMPUTER")) || (winnerCheck.equals("PLAYER")))
+            return gson.toJson(newModel());
+        else
+            return gson.toJson(currModel);
     }
 
 

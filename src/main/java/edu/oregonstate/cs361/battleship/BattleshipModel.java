@@ -151,12 +151,14 @@ public class BattleshipModel {
         }
         // no ship found
         // if scan doesn't find a ship...
-        // Modify game state to have misses on scanned spots
+        // Do nothing
+        /*
         computerMisses.add(new Coordinate(coor.getAcross(), coor.getDown()));
         computerMisses.add(new Coordinate(coor.getAcross()-1, coor.getDown()));
         computerMisses.add(new Coordinate(coor.getAcross()+1, coor.getDown()));
         computerMisses.add(new Coordinate(coor.getAcross(), coor.getDown()-1));
         computerMisses.add(new Coordinate(coor.getAcross(), coor.getDown()+1));
+        */
     }
 
     public boolean getScanResult() {

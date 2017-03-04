@@ -141,6 +141,8 @@ function scan(acrossInt, downInt){
         setDialogBox("Found a ship in the vicinity of " + acrossInt + "_" + downInt + "!");
         document.getElementById("e" + downInt + '_' + acrossInt).innerHTML = '<img src="sprites/Scan.png" alt="" border=0 height=64 width=64>';
      }
+     else
+        setDialogBox("No ship detected in vicinity of scan.");
 
    });
 
@@ -183,8 +185,8 @@ for(var j = 1; j < 11; j++) {
 
 displayShip(gameModel.aircraftCarrier);
 displayShip(gameModel.battleship);
-displayShip(gameModel.cruiser);
-displayShip(gameModel.destroyer);
+displayShip(gameModel.clipper);
+displayShip(gameModel.dinghy);
 displayShip(gameModel.submarine);
 
 for (var i = 0; i < gameModel.computerMisses.length; i++) {
