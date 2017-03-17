@@ -9,10 +9,19 @@ $( document ).ready(function() {
    });
 });
 
-
 var state = "fire";
 var lastClickAcross;
 var lastClickDown;
+
+function startGame(mode) {
+	if (mode == "hard") {
+		
+	} else if (mode == "easy") {
+		
+	}
+	
+	window.location.href = "battleship.html";
+}
 
 function setDialogBox(stringText) {
     var elem = document.getElementById("dbContent");

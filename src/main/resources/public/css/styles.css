@@ -14,6 +14,13 @@ header {
 	width: 100%;
 }
 
+div#container {
+	background: black;
+	width: 80%;
+	height: 100%;
+	margin: auto;
+}
+
 section#content {
 	display: table;
 	background: #444444;
@@ -33,13 +40,6 @@ section#console {
 	display:table-cell;
 	background: #AAAAAA;
 	width: 50%;
-	margin: auto;
-}
-
-div#container {
-	background: black;
-	width: 80%;
-	height: 100%;
 	margin: auto;
 }
 
