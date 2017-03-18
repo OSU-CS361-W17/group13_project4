@@ -33,5 +33,17 @@ class CoordinateTest {
         c.setAcross(9);
         assertEquals(9,c.getAcross());
     }
-
+    @Test
+    void equals() {
+        Coordinate c = new Coordinate(2,3);
+        Coordinate d = new Coordinate(2,3);
+        assertEquals(c, d);
+    }
+    @Test
+    void notEquals() {
+        Coordinate c = new Coordinate(1,2);
+        Coordinate d = new Coordinate(1,3);
+        assertNotEquals(c, d);
+        assertNotEquals(c, new Object());
+    }
 }
