@@ -10,6 +10,6 @@ public interface ComputerAi
 
     public abstract ShipLocation getShipPlacementOf(String shipName);
 
-    public abstract Coordinate fire(List<Coordinate> playerHits, List<Coordinate> playerMisses);
+    public abstract Coordinate fire(List<Coordinate> playerHits, List<Coordinate> playerMisses, Coordinate lastShot);
 
 }

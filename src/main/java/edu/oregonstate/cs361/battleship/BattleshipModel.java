@@ -25,6 +25,7 @@ public class BattleshipModel {
     private ArrayList<Coordinate> playerMisses;
     ArrayList<Coordinate> computerHits;
     ArrayList<Coordinate> computerMisses;
+    Coordinate lastShot = new Coordinate(-1, -1);
 
     boolean scanResult = false;
     boolean isHardMode = false;
@@ -153,7 +154,9 @@ public class BattleshipModel {
 
     public void shootAtPlayer() {
 
-        Coordinate coor = getAI().fire(playerHits, playerMisses);
+        Coordinate coor = getAI().fire(playerHits, playerMisses, lastShot);
+        lastShot.setAcross(coor.getAcross());
+        lastShot.setDown(coor.getDown());
         playerShot(coor);
     }
 
