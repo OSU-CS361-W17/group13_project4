@@ -34,4 +34,8 @@ public class Coordinate {
     public void setAcross(int across) {
         Across = across;
     }
+
+    public String toString() {
+        return ("Coordinate{Across: " + Across + " Down: " + Down + "}");
+    }
 }
