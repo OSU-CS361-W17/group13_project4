@@ -15,19 +15,20 @@ public class BattleshipModel {
     private CivilianShip dinghy = new CivilianShip("Dinghy",1, new Coordinate(0,0),new Coordinate(0,0));
     private StealthShip submarine = new StealthShip("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
 
-    private Ship computer_aircraftCarrier = new Ship("Computer_AircraftCarrier",5, new Coordinate(2,2),new Coordinate(2,6));
-    private StealthShip computer_battleship = new StealthShip("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(5,8));
-    private CivilianShip computer_clipper = new CivilianShip("Computer_Clipper",3, new Coordinate(4,1),new Coordinate(4,3));
-    private CivilianShip computer_dinghy = new CivilianShip("Computer_Dinghy",1, new Coordinate(7,3),new Coordinate(7,4));
-    private StealthShip computer_submarine = new StealthShip("Computer_Submarine",2, new Coordinate(9,6),new Coordinate(9,7));
+    private Ship computer_aircraftCarrier;// = new Ship("Computer_AircraftCarrier",5, new Coordinate(0,0),new Coordinate(0,0));
+    private StealthShip computer_battleship;// = new StealthShip("Computer_Battleship",4, new Coordinate(0,0),new Coordinate(0,0));
+    private CivilianShip computer_clipper;// = new CivilianShip("Computer_Clipper",3, new Coordinate(0,0),new Coordinate(0,0));
+    private CivilianShip computer_dinghy;// = new CivilianShip("Computer_Dinghy",1, new Coordinate(0,0),new Coordinate(0,0));
+    private StealthShip computer_submarine;// = new StealthShip("Computer_Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
 
     ArrayList<Coordinate> playerHits;
     private ArrayList<Coordinate> playerMisses;
     ArrayList<Coordinate> computerHits;
     ArrayList<Coordinate> computerMisses;
+    Coordinate lastShot = new Coordinate(-1, -1);
 
     boolean scanResult = false;
-
+    boolean isHardMode = false;
 
 
     public BattleshipModel() {
@@ -35,6 +36,18 @@ public class BattleshipModel {
         playerMisses= new ArrayList<>();
         computerHits = new ArrayList<>();
         computerMisses= new ArrayList<>();
+
+        ComputerAi AI = getAI();
+        ShipLocation s = AI.getShipPlacementOf("Computer_AircraftCarrier");
+        computer_aircraftCarrier = new Ship("Computer_AircraftCarrier", 5, s);
+        s = AI.getShipPlacementOf("Computer_Battleship");
+        computer_battleship = new StealthShip("Computer_Battleship", 4, s);
+        s = AI.getShipPlacementOf("Computer_Clipper");
+        computer_clipper = new CivilianShip("Computer_Clipper", 3, s);
+        s = AI.getShipPlacementOf("Computer_Dinghy");
+        computer_dinghy = new CivilianShip("Computer_Dinghy", 1, s);
+        s = AI.getShipPlacementOf("Computer_Submarine");
+        computer_submarine = new StealthShip("Computer_Submarine", 2, s);
     }
 
     public List<Ship> getPlayerShips() {
@@ -56,20 +69,49 @@ public class BattleshipModel {
         return list;
     }
 
+    // ensure this only gets called once for all uses of getShipPlacement();
+    private ComputerAi getAI() {
+        if(isHardMode) {
+            return new HardAi();
+        }
+        else {
+            return new EasyAi();
+        }
+    }
+
     public Ship getShip(String shipName) {
         if (shipName.equalsIgnoreCase("aircraftcarrier")) {
             return aircraftCarrier;
-        } if(shipName.equalsIgnoreCase("battleship")) {
-            return battleship;
-        } if(shipName.equalsIgnoreCase("clipper")) {
-        return clipper;
-        } if(shipName.equalsIgnoreCase("dinghy")) {
-            return dinghy;
-        }if(shipName.equalsIgnoreCase("submarine")) {
-            return submarine;
-        } else {
-            return null;
         }
+        if(shipName.equalsIgnoreCase("battleship")) {
+            return battleship;
+        }
+        if(shipName.equalsIgnoreCase("clipper")) {
+             return clipper;
+        }
+        if(shipName.equalsIgnoreCase("dinghy")) {
+            return dinghy;
+        }
+        if(shipName.equalsIgnoreCase("submarine")) {
+            return submarine;
+        }
+        if (shipName.equalsIgnoreCase("computer_aircraftcarrier")) {
+            return aircraftCarrier;
+        }
+        if(shipName.equalsIgnoreCase("computer_battleship")) {
+            return battleship;
+        }
+        if(shipName.equalsIgnoreCase("computer_clipper")) {
+            return clipper;
+        }
+        if(shipName.equalsIgnoreCase("computer_dinghy")) {
+            return dinghy;
+        }
+        if(shipName.equalsIgnoreCase("computer_submarine")) {
+            return submarine;
+        }
+        return null;
+
     }
 
     public BattleshipModel placeShip(String shipName, String row, String col, String orientation) {
@@ -111,13 +153,10 @@ public class BattleshipModel {
     }
 
     public void shootAtPlayer() {
-        int max = 10;
-        int min = 1;
-        Random random = new Random();
-        int randRow = random.nextInt(max - min + 1) + min;
-        int randCol = random.nextInt(max - min + 1) + min;
 
-        Coordinate coor = new Coordinate(randRow,randCol);
+        Coordinate coor = getAI().fire(playerHits, playerMisses, lastShot);
+        lastShot.setAcross(coor.getAcross());
+        lastShot.setDown(coor.getDown());
         playerShot(coor);
     }
 

@@ -9,6 +9,10 @@ public class StealthShip extends Ship {
         super(n, l, s, e);
     }
 
+    public StealthShip(String n, int i, ShipLocation s) {
+        super(n, i, s);
+    }
+
     /*
         cannot be found by scans;
      */

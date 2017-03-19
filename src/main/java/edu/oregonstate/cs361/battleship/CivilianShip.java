@@ -11,6 +11,10 @@ public class CivilianShip extends Ship {
         super(n, l, s, e);
     }
 
+    public CivilianShip(String n, int i, ShipLocation s) {
+        super(n, i, s);
+    }
+
     /*
     civilian ships are sunk by a single hit.
      */
