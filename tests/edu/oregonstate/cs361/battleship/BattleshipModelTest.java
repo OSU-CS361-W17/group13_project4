@@ -72,6 +72,51 @@ class BattleshipModelTest {
         assertEquals(false,
                 testIfCovers(model, "Submarine","1","1","vertical",9,9));
 
+        assertEquals(true,
+                testIfCovers(model, "computer_AircraftCarrier","1","1","horizontal",1,1));
+        assertEquals(true,
+                testIfCovers(model, "computer_AircraftCarrier","1","1","vertical",1,1));
+        assertEquals(false,
+                testIfCovers(model, "computer_AircraftCarrier","1","1","horizontal",9,9));
+        assertEquals(false,
+                testIfCovers(model, "computer_AircraftCarrier","1","1","vertical",9,9));
+
+        assertEquals(true,
+                testIfCovers(model, "computer_Battleship","1","1","horizontal",1,1));
+        assertEquals(true,
+                testIfCovers(model, "computer_Battleship","1","1","vertical",1,1));
+        assertEquals(false,
+                testIfCovers(model, "computer_Battleship","1","1","horizontal",9,9));
+        assertEquals(false,
+                testIfCovers(model, "computer_Battleship","1","1","vertical",9,9));
+
+        assertEquals(true,
+                testIfCovers(model, "computer_Clipper","1","1","horizontal",1,1));
+        assertEquals(true,
+                testIfCovers(model, "computer_Clipper","1","1","vertical",1,1));
+        assertEquals(false,
+                testIfCovers(model, "computer_Clipper","1","1","horizontal",9,9));
+        assertEquals(false,
+                testIfCovers(model, "computer_Clipper","1","1","vertical",9,9));
+
+        assertEquals(true,
+                testIfCovers(model, "computer_Dinghy","1","1","horizontal",1,1));
+        assertEquals(true,
+                testIfCovers(model, "computer_Dinghy","1","1","vertical",1,1));
+        assertEquals(false,
+                testIfCovers(model, "computer_Dinghy","1","1","horizontal",9,9));
+        assertEquals(false,
+                testIfCovers(model, "computer_Dinghy","1","1","vertical",9,9));
+
+        assertEquals(true,
+                testIfCovers(model, "computer_Submarine","1","1","horizontal",1,1));
+        assertEquals(true,
+                testIfCovers(model, "computer_Submarine","1","1","vertical",1,1));
+        assertEquals(false,
+                testIfCovers(model, "computer_Submarine","1","1","horizontal",9,9));
+        assertEquals(false,
+                testIfCovers(model, "computer_Submarine","1","1","vertical",9,9));
+
         assertNull(model.placeShip("Submarine","1","1","horizontal").getShip("USS Minnow"));
 
 
@@ -142,7 +187,7 @@ class BattleshipModelTest {
     void testsScan() {
         BattleshipModel model = new BattleshipModel();
         model.scan(2,2);
-        assertEquals(true,model.getScanResult());
+        assertEquals(true, model.getScanResult());
 
         model.scan(6,6);
         assertEquals(false,model.getScanResult());

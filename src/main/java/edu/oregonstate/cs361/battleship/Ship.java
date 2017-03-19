@@ -18,6 +18,18 @@ public class Ship {
         end = e;
     }
 
+    public Ship(String n, int l, ShipLocation s) {
+        this(
+                n,
+                l,
+                s.getStart(),
+                new Coordinate(
+                        s.getIsHorizontal() ? s.getStart().getAcross() : s.getStart().getAcross() + l,
+                        s.getIsHorizontal() ? s.getStart().getDown() + l : s.getStart().getDown()
+                )
+        );
+    }
+
 
     public void setLocation(Coordinate s, Coordinate e) {
         start = s;
@@ -90,5 +102,10 @@ public class Ship {
 
     public int getLength() {
         return length;
+    }
+
+    @Override
+    public String toString() {
+        return "Ship { start: [" + start + "] end: [" + end + "]}";
     }
 }
