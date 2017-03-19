@@ -29,7 +29,7 @@ public class EasyAi implements ComputerAi {
     }
 
     @Override
-    public Coordinate fire(List<Coordinate> playerHits, List<Coordinate> playerMisses) {
+    public Coordinate fire(List<Coordinate> playerHits, List<Coordinate> playerMisses, Coordinate lastShot) {
         int max = 10;
         int min = 1;
 
