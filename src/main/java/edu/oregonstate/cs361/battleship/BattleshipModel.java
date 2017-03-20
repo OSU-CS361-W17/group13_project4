@@ -144,7 +144,6 @@ public class BattleshipModel {
     }
 
     public void shootAtPlayer() {
-
         Coordinate coor = getAI().fire(playerHits, playerMisses, lastShot);
         lastShot.setAcross(coor.getAcross());
         lastShot.setDown(coor.getDown());
@@ -214,7 +213,9 @@ public class BattleshipModel {
     // ensure this only gets called once for all uses of getShipPlacement();
     private ComputerAi getAI() {
         if(isHardMode) {
-            return new HardAi();
+            HardAi hard = new HardAi();
+            hard.initiateShotQueue();
+            return hard;
         }
         else {
             return new EasyAi();
