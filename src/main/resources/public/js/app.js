@@ -14,13 +14,16 @@ var lastClickAcross;
 var lastClickDown;
 
 function startGame(mode) {
-	if (mode == "hard") {
-		
-	} else if (mode == "easy") {
-		
-	}
-	
-	window.location.href = "battleship.html";
+    document.getElementById("startContainer").style.display = "none";
+    document.getElementById("container").style.display = "inline";
+
+    if(mode == "easy"){
+        gameModel.isHardMode = "false";
+    }
+    else if(mode == "hard"){
+        gameModel.isHardMode = "true";
+    }
+	//window.location.href = "battleship.html";
 }
 
 function setDialogBox(stringText) {

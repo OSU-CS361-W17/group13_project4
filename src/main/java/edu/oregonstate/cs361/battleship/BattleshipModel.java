@@ -69,15 +69,6 @@ public class BattleshipModel {
         return list;
     }
 
-    // ensure this only gets called once for all uses of getShipPlacement();
-    private ComputerAi getAI() {
-        if(isHardMode) {
-            return new HardAi();
-        }
-        else {
-            return new EasyAi();
-        }
-    }
 
     public Ship getShip(String shipName) {
         if (shipName.equalsIgnoreCase("aircraftcarrier")) {
@@ -218,5 +209,15 @@ public class BattleshipModel {
         }
         if(cpuwins) return "COMPUTER";
         return "NONE";
+    }
+
+    // ensure this only gets called once for all uses of getShipPlacement();
+    private ComputerAi getAI() {
+        if(isHardMode) {
+            return new HardAi();
+        }
+        else {
+            return new EasyAi();
+        }
     }
 }
