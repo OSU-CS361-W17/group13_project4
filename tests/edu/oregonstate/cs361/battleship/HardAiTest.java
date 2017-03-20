@@ -1,7 +1,7 @@
 package edu.oregonstate.cs361.battleship;
 
 import org.junit.jupiter.api.Test;
-
+/*
 class HardAITest {
 
     @test
@@ -13,3 +13,4 @@ class HardAITest {
 
     }
 }
+*/
