@@ -25,6 +25,7 @@ public class BattleshipModel {
     private ArrayList<Coordinate> playerMisses;
     ArrayList<Coordinate> computerHits;
     ArrayList<Coordinate> computerMisses;
+    Coordinate lastShot = new Coordinate(-1, -1);
 
     boolean scanResult = false;
     boolean isHardMode = false;
@@ -68,15 +69,6 @@ public class BattleshipModel {
         return list;
     }
 
-    // ensure this only gets called once for all uses of getShipPlacement();
-    private ComputerAi getAI() {
-        if(isHardMode) {
-            return new HardAi();
-        }
-        else {
-            return new EasyAi();
-        }
-    }
 
     public Ship getShip(String shipName) {
         if (shipName.equalsIgnoreCase("aircraftcarrier")) {
@@ -152,8 +144,9 @@ public class BattleshipModel {
     }
 
     public void shootAtPlayer() {
-
-        Coordinate coor = getAI().fire(playerHits, playerMisses);
+        Coordinate coor = getAI().fire(playerHits, playerMisses, lastShot);
+        lastShot.setAcross(coor.getAcross());
+        lastShot.setDown(coor.getDown());
         playerShot(coor);
     }
 
@@ -215,5 +208,17 @@ public class BattleshipModel {
         }
         if(cpuwins) return "COMPUTER";
         return "NONE";
+    }
+
+    // ensure this only gets called once for all uses of getShipPlacement();
+    private ComputerAi getAI() {
+        if(isHardMode) {
+            HardAi hard = new HardAi();
+            hard.initiateShotQueue();
+            return hard;
+        }
+        else {
+            return new EasyAi();
+        }
     }
 }

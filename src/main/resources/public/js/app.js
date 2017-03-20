@@ -9,10 +9,22 @@ $( document ).ready(function() {
    });
 });
 
-
 var state = "fire";
 var lastClickAcross;
 var lastClickDown;
+
+function startGame(mode) {
+    document.getElementById("startContainer").style.display = "none";
+    document.getElementById("container").style.display = "inline";
+
+    if(mode == "easy"){
+        gameModel.isHardMode = "false";
+    }
+    else if(mode == "hard"){
+        gameModel.isHardMode = "true";
+    }
+	//window.location.href = "battleship.html";
+}
 
 function setDialogBox(stringText) {
     var elem = document.getElementById("dbContent");
