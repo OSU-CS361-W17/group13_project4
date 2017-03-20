@@ -14,7 +14,46 @@ header {
 	width: 100%;
 }
 
+div#startContainer{
+	background: black;
+	width: 80%;
+	height: 100%;
+	margin: auto;
+}
+
+section#startContent {
+	display: table;
+	background: #444444;
+	border: 16px solid #F44336;
+	margin: auto;
+}
+
+div#startTitle{
+	text-align: center;
+	display: table;
+	width: 100%;
+	font-family: verdana, arial, sans-serif;
+}
+
+p:hover{
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+div#easy{
+	padding: 16px;
+	display: table-cell;
+	width: 50%;
+}
+
+div#hard{
+	padding: 16px;
+	display: table-cell;
+	width: 50%;
+}
+
 div#container {
+    display: none;
 	background: black;
 	width: 80%;
 	height: 100%;
